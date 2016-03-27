@@ -90,7 +90,9 @@ L<HTML Living Standard|https://html.spec.whatwg.org/#named-character-references-
 
 =head1 BUGS
 
-Report any issues on the public bugtracker.
+Report issues related to the format of this distribution or Perl 5.8 support to
+the public bugtracker. Any other issues should be reported directly to the
+upstream L<Mojolicious> issue tracker.
 
 =head1 AUTHOR
 
