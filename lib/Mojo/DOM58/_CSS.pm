@@ -1,5 +1,9 @@
 package Mojo::DOM58::_CSS;
 
+# This file is part of Mojo::DOM58 which is released under:
+#   The Artistic License 2.0 (GPL Compatible)
+# See the documentation for Mojo::DOM58 for full license details.
+
 use strict;
 use warnings;
 
