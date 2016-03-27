@@ -61,11 +61,11 @@
    "provides" : {
       "Mojo::DOM58" : {
          "file" : "lib/Mojo/DOM58.pm",
-         "version" : "0.004"
+         "version" : "0.001"
       },
       "Mojo::DOM58::Entities" : {
          "file" : "lib/Mojo/DOM58/Entities.pm",
-         "version" : "0.004"
+         "version" : "0.001"
       }
    },
    "release_status" : "stable",
@@ -80,7 +80,7 @@
          "web" : "https://github.com/Grinnz/Mojo-DOM58"
       }
    },
-   "version" : "0.004",
+   "version" : "0.001",
    "x_contributors" : [
       "Dan Book <grinnz@grinnz.com>"
    ]

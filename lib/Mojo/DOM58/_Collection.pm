@@ -8,7 +8,7 @@ use Scalar::Util 'blessed';
 
 use constant REDUCE => ($] >= 5.008009 ? \&List::Util::reduce : \&_reduce);
 
-our $VERSION = '0.004';
+our $VERSION = '0.001';
 
 sub new {
   my $class = shift;
