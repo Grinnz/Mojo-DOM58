@@ -935,8 +935,8 @@ reference, or with the following methods.
 
   my $new = $collection->compact;
 
-Create a new collection with all elements that are defined and not an empty
-string.
+Create a new L<collection|/"COLLECTION METHODS"> with all elements that are
+defined and not an empty string.
 
   # $collection contains (0, 1, undef, 2, '', 3)
   $collection->compact->join(', '); # "0, 1, 2, 3"
@@ -982,8 +982,8 @@ passed to the callback and is also available as C<$_>.
 
   my $new = $collection->flatten;
 
-Flatten nested collections/arrays recursively and create a new collection with
-all elements.
+Flatten nested collections/arrays recursively and create a new
+L<collection|/"COLLECTION METHODS"> with all elements.
 
   # $collection contains (1, [2, [3, 4], 5, [6]], 7)
   $collection->flatten->join(', '); # "1, 2, 3, 4, 5, 6, 7"
@@ -996,10 +996,10 @@ all elements.
   my $new = $collection->grep($method, @args);
 
 Evaluate regular expression/callback for, or call method on, each element in
-collection and create a new collection with all elements that matched the
-regular expression, or for which the callback/method returned true. The element
-will be the first argument passed to the callback and is also available as
-C<$_>.
+collection and create a new L<collection|/"COLLECTION METHODS"> with all
+elements that matched the regular expression, or for which the callback/method
+returned true. The element will be the first argument passed to the callback
+and is also available as C<$_>.
 
   # Longer version
   my $new = $collection->grep(sub { $_->$method(@args) });
@@ -1033,8 +1033,8 @@ Return the last element in collection.
   my $new = $collection->map($method, @args);
 
 Evaluate callback for, or call method on, each element in collection and create
-a new collection from the results. The element will be the first argument
-passed to the callback and is also available as C<$_>.
+a new L<collection|/"COLLECTION METHODS"> from the results. The element will be
+the first argument passed to the callback and is also available as C<$_>.
 
   # Longer version
   my $new = $collection->map(sub { $_->$method(@args) });
@@ -1060,13 +1060,14 @@ initial value if none has been provided.
 
   my $new = $collection->reverse;
 
-Create a new collection with all elements in reverse order.
+Create a new L<collection|/"COLLECTION METHODS"> with all elements in reverse
+order.
 
 =head2 slice
 
   my $new = $collection->slice(4 .. 7);
 
-Create a new collection with all selected elements.
+Create a new L<collection|/"COLLECTION METHODS"> with all selected elements.
 
   # $collection contains ('A', 'B', 'C', 'D', 'E')
   $collection->slice(1, 2, 4)->join(' '); # "B C E"
@@ -1075,7 +1076,8 @@ Create a new collection with all selected elements.
 
   my $new = $collection->shuffle;
 
-Create a new collection with all elements in random order.
+Create a new L<collection|/"COLLECTION METHODS"> with all elements in random
+order.
 
 =head2 size
 
@@ -1088,8 +1090,8 @@ Number of elements in collection.
   my $new = $collection->sort;
   my $new = $collection->sort(sub {...});
 
-Sort elements based on return value of callback and create a new collection
-from the results.
+Sort elements based on return value of callback and create a new
+L<collection|/"COLLECTION METHODS"> from the results.
 
   # Sort values case-insensitive
   my $case_insensitive = $collection->sort(sub { uc($a) cmp uc($b) });
@@ -1113,9 +1115,9 @@ Turn collection into array reference.
   my $new = $collection->uniq($method);
   my $new = $collection->uniq($method, @args);
 
-Create a new collection without duplicate elements, using the string
-representation of either the elements or the return value of the
-callback/method.
+Create a new L<collection|/"COLLECTION METHODS"> without duplicate elements,
+using the string representation of either the elements or the return value of
+the callback/method.
 
   # Longer version
   my $new = $collection->uniq(sub { $_->$method(@args) });
