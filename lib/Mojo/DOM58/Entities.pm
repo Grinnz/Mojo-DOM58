@@ -96,9 +96,14 @@ Report any issues on the public bugtracker.
 
 Dan Book <dbook@cpan.org>
 
+Code and tests adapted from L<Mojo::Util>, a set of utilities by the
+L<Mojolicious> team.
+
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2015 by Dan Book.
+Copyright (c) 2008-2016 Sebastian Riedel and others.
+
+Copyright (c) 2016 Dan Book for adaptation to standalone format.
 
 This is free software, licensed under:
 

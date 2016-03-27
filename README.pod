@@ -1147,7 +1147,7 @@ Code and tests adapted from L<Mojo::DOM>, a lightweight DOM parser by the L<Mojo
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2008-2016 Sebastian Riedel.
+Copyright (c) 2008-2016 Sebastian Riedel and others.
 
 Copyright (c) 2016 L</"AUTHOR"> and L</"CONTRIBUTORS"> for adaptation to standalone format.
 
