@@ -1128,8 +1128,9 @@ callback/method.
 
 =head1 BUGS
 
-Please report any issues directly to the upstream L<Mojolicious> issue tracker
-unless they are related to the porting of features to this distribution.
+Report issues related to the format of this distribution or Perl 5.8 support to
+the public bugtracker. Any other issues should be reported directly to the
+upstream L<Mojolicious> issue tracker.
 
 =head1 AUTHOR
 
