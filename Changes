@@ -1,6 +1,8 @@
 {{$NEXT}}
-  - Added recognition of <slot> element from Mojolicious 6.59
-  - Recognize legacy HTML entities without semicolons again from Mojolicious 6.64
+
+0.002     2016-06-14 01:28:10 EDT
+  - Added recognition of <slot> element (from Mojolicious 6.59)
+  - Recognize legacy HTML entities without semicolons again (from Mojolicious 6.64)
 
 0.001     2016-03-27 16:12:42 EDT
   - First release
