@@ -9,7 +9,7 @@ use warnings;
 use Mojo::DOM58::Entities qw(html_escape html_unescape);
 use Scalar::Util 'weaken';
 
-our $VERSION = '0.003';
+our $VERSION = '1.000';
 
 my $ATTR_RE = qr/
   ([^<>=\s\/]+|\/)                         # Key
