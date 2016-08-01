@@ -1,6 +1,7 @@
 {{$NEXT}}
   - (INCOMPATIBLE CHANGE) Removed support for smart whitespace trimming from
     all_text and text methods, and fix whitespace bugs (from Mojolicious 7.0)
+  - Fixed CSS selector for value-less attributes (from Mojolicious 7.0)
 
 0.002     2016-06-14 01:28:10 EDT
   - Added recognition of <slot> element (from Mojolicious 6.59)

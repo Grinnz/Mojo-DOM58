@@ -350,7 +350,7 @@ is $dom->at('script')->text, "alert('lalala');", 'right script content';
 
 # HTML5 (unquoted values)
 $dom = Mojo::DOM58->new(
-  '<div id = test foo ="bar" class=tset bar=/baz/ baz=//>works</div>');
+  '<div id = test foo ="bar" class=tset bar=/baz/ value baz=//>works</div>');
 is $dom->at('#test')->text,                'works', 'right text';
 is $dom->at('div')->text,                  'works', 'right text';
 is $dom->at('[foo=bar][foo="bar"]')->text, 'works', 'right text';
@@ -360,6 +360,8 @@ is $dom->at('[foo=ba]'), undef, 'no result';
 is $dom->at('.tset')->text,       'works', 'right text';
 is $dom->at('[bar=/baz/]')->text, 'works', 'right text';
 is $dom->at('[baz=//]')->text,    'works', 'right text';
+is $dom->at('[value]')->text,     'works', 'right text';
+is $dom->at('[value=baz]'), undef, 'no result';
 
 # HTML1 (single quotes, uppercase tags and whitespace in attributes)
 $dom = Mojo::DOM58->new(q{<DIV id = 'test' foo ='bar' class= "tset">works</DIV>});
