@@ -26,7 +26,7 @@ sub new {
 
 sub TO_JSON { shift->_delegate('render') }
 
-sub all_text { shift->_all_text(1, @_) }
+sub all_text { _text([_nodes(shift->tree)], 1) }
 
 sub ancestors { _select($_[0]->_collect($_[0]->_ancestors), $_[1]) }
 
@@ -155,7 +155,7 @@ sub tag {
 
 sub tap { Mojo::DOM58::_Collection::tap(@_) }
 
-sub text { shift->_all_text(0, @_) }
+sub text { _text([_nodes(shift->tree)], 0) }
 
 sub to_string { shift->_delegate('render') }
 
@@ -202,18 +202,6 @@ sub _add {
 
 sub _all {
   map { $_->[0] eq 'tag' ? ($_, _all(_nodes($_))) : ($_) } @_;
-}
-
-sub _all_text {
-  my ($self, $recurse, $trim) = @_;
-
-  # Detect "pre" tag
-  my $tree = $self->tree;
-  $trim = 1 unless defined $trim;
-  map { $_->[1] eq 'pre' and $trim = 0 } $self->_ancestors, $tree
-    if $trim && $tree->[0] ne 'root';
-
-  return _text([_nodes($tree)], $recurse, $trim);
 }
 
 sub _ancestors {
@@ -319,48 +307,22 @@ sub _siblings {
   return defined $i ? [$before[$i], $after[$i]] : [\@before, \@after];
 }
 
-sub _squish {
-  my $str = shift;
-  $str =~ s/^\s+//;
-  $str =~ s/\s+$//;
-  $str =~ s/\s+/ /g;
-  return $str;
-}
-
 sub _start { $_[0][0] eq 'root' ? 1 : 4 }
 
 sub _text {
-  my ($nodes, $recurse, $trim) = @_;
-
-  # Merge successive text nodes
-  my $i = 0;
-  while (my $next = $nodes->[$i + 1]) {
-    ++$i and next unless $nodes->[$i][0] eq 'text' && $next->[0] eq 'text';
-    splice @$nodes, $i, 2, ['text', $nodes->[$i][1] . $next->[1]];
-  }
+  my ($nodes, $all) = @_;
 
   my $text = '';
-  for my $node (@$nodes) {
+  while (my $node = shift @$nodes) {
     my $type = $node->[0];
 
     # Text
-    my $chunk = '';
-    if ($type eq 'text') { $chunk = $trim ? _squish $node->[1] : $node->[1] }
-
-    # CDATA or raw text
-    elsif ($type eq 'cdata' || $type eq 'raw') { $chunk = $node->[1] }
-
-    # Nested tag
-    elsif ($type eq 'tag' && $recurse) {
-      no warnings 'recursion';
-      $chunk = _text([_nodes($node)], 1, $node->[1] eq 'pre' ? 0 : $trim);
+    if ($type eq 'text' || $type eq 'cdata' || $type eq 'raw') {
+      $text .= $node->[1];
     }
 
-    # Add leading whitespace if punctuation allows it
-    $chunk = " $chunk" if $text =~ /\S\z/ && $chunk =~ /^[^.!?,;:\s]+/;
-
-    # Trim whitespace blocks
-    $text .= $chunk if $chunk =~ /\S+/ || !$trim;
+    # Nested tag
+    elsif ($type eq 'tag' && $all) { unshift @$nodes, _nodes($node) }
   }
 
   return $text;
@@ -769,17 +731,12 @@ fragment if necessary.
 
 =head2 all_text
 
-  my $trimmed   = $dom->all_text;
-  my $untrimmed = $dom->all_text(0);
+  my $text = $dom->all_text;
 
-Extract text content from all descendant nodes of this element, smart
-whitespace trimming is enabled by default.
-
-  # "foo bar baz"
-  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->all_text;
+Extract text content from all descendant nodes of this element.
 
   # "foo\nbarbaz\n"
-  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->all_text(0);
+  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->all_text;
 
 =head2 ancestors
 
@@ -1178,17 +1135,15 @@ Equivalent to L<Mojo::Base/"tap">.
 
 =head2 text
 
-  my $trimmed   = $dom->text;
-  my $untrimmed = $dom->text(0);
+  my $text = $dom->text;
 
-Extract text content from this element only (not including child elements),
-smart whitespace trimming is enabled by default.
+Extract text content from this element only (not including child elements).
 
-  # "foo baz"
-  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->text;
+  # "bar"
+  $dom->parse("<div>foo<p>bar</p>baz</div>")->at('p')->text;
 
   # "foo\nbaz\n"
-  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->text(0);
+  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->text;
 
 =head2 to_string
 

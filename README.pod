@@ -376,17 +376,12 @@ fragment if necessary.
 
 =head2 all_text
 
-  my $trimmed   = $dom->all_text;
-  my $untrimmed = $dom->all_text(0);
+  my $text = $dom->all_text;
 
-Extract text content from all descendant nodes of this element, smart
-whitespace trimming is enabled by default.
-
-  # "foo bar baz"
-  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->all_text;
+Extract text content from all descendant nodes of this element.
 
   # "foo\nbarbaz\n"
-  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->all_text(0);
+  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->all_text;
 
 =head2 ancestors
 
@@ -785,17 +780,15 @@ Equivalent to L<Mojo::Base/"tap">.
 
 =head2 text
 
-  my $trimmed   = $dom->text;
-  my $untrimmed = $dom->text(0);
+  my $text = $dom->text;
 
-Extract text content from this element only (not including child elements),
-smart whitespace trimming is enabled by default.
+Extract text content from this element only (not including child elements).
 
-  # "foo baz"
-  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->text;
+  # "bar"
+  $dom->parse("<div>foo<p>bar</p>baz</div>")->at('p')->text;
 
   # "foo\nbaz\n"
-  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->text(0);
+  $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->text;
 
 =head2 to_string
 
