@@ -1,5 +1,10 @@
 {{$NEXT}}
 
+1.000     2016-08-10 21:57:48 EDT
+  - (INCOMPATIBLE CHANGE) Removed support for smart whitespace trimming from
+    all_text and text methods, and fix whitespace bugs (from Mojolicious 7.0)
+  - Fixed CSS selector for value-less attributes (from Mojolicious 7.0)
+
 0.999     2016-08-01 04:24:01 EDT (TRIAL RELEASE)
   - (INCOMPATIBLE CHANGE) Removed support for smart whitespace trimming from
     all_text and text methods, and fix whitespace bugs (from Mojolicious 7.0)
