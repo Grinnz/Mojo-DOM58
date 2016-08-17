@@ -4,7 +4,7 @@
       "Dan Book <dbook@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 6.006, CPAN::Meta::Converter version 2.150005",
+   "generated_by" : "Dist::Zilla version 6.007, CPAN::Meta::Converter version 2.150005",
    "license" : [
       "artistic_2"
    ],
@@ -66,11 +66,11 @@
    "provides" : {
       "Mojo::DOM58" : {
          "file" : "lib/Mojo/DOM58.pm",
-         "version" : "1.000"
+         "version" : "1.001"
       },
       "Mojo::DOM58::Entities" : {
          "file" : "lib/Mojo/DOM58/Entities.pm",
-         "version" : "1.000"
+         "version" : "1.001"
       }
    },
    "release_status" : "stable",
@@ -85,7 +85,7 @@
          "web" : "https://github.com/Grinnz/Mojo-DOM58"
       }
    },
-   "version" : "1.000",
+   "version" : "1.001",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.024000"
@@ -109,12 +109,12 @@
          {
             "class" : "Dist::Zilla::Plugin::GenerateFile",
             "name" : "@Author::DBOOK/Generate_Contrib",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaConfig",
             "name" : "@Author::DBOOK/MetaConfig",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaProvides::Package",
@@ -124,7 +124,7 @@
                      {
                         "class" : "Dist::Zilla::Plugin::FinderCode",
                         "name" : "@Author::DBOOK/MetaProvides::Package/AUTOVIV/:InstallModulesPM",
-                        "version" : "6.006"
+                        "version" : "6.007"
                      }
                   ],
                   "include_underscores" : 0
@@ -152,6 +152,7 @@
             "class" : "Dist::Zilla::Plugin::Git::Contributors",
             "config" : {
                "Dist::Zilla::Plugin::Git::Contributors" : {
+                  "git --version" : "1.7.1",
                   "include_authors" : 0,
                   "include_releaser" : 1,
                   "order_by" : "name",
@@ -161,12 +162,12 @@
                }
             },
             "name" : "@Author::DBOOK/Git::Contributors",
-            "version" : "0.023"
+            "version" : "0.024"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaNoIndex",
             "name" : "@Author::DBOOK/MetaNoIndex",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::CheckChangesHasContent",
@@ -219,7 +220,7 @@
          {
             "class" : "Dist::Zilla::Plugin::NextRelease",
             "name" : "@Author::DBOOK/NextRelease",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Commit",
@@ -263,7 +264,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v1.000",
+                  "tag" : "v1.001",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
@@ -338,12 +339,12 @@
          {
             "class" : "Dist::Zilla::Plugin::PodSyntaxTests",
             "name" : "@Author::DBOOK/PodSyntaxTests",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::PodCoverageTests",
             "name" : "@Author::DBOOK/PodCoverageTests",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::Test::ReportPrereqs",
@@ -385,27 +386,27 @@
          {
             "class" : "Dist::Zilla::Plugin::PruneCruft",
             "name" : "@Author::DBOOK/PruneCruft",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::ManifestSkip",
             "name" : "@Author::DBOOK/ManifestSkip",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaYAML",
             "name" : "@Author::DBOOK/MetaYAML",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaJSON",
             "name" : "@Author::DBOOK/MetaJSON",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::License",
             "name" : "@Author::DBOOK/License",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::ReadmeAnyFromPod",
@@ -420,17 +421,17 @@
          {
             "class" : "Dist::Zilla::Plugin::ExecDir",
             "name" : "@Author::DBOOK/ExecDir",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::ShareDir",
             "name" : "@Author::DBOOK/ShareDir",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::ExecDir",
             "name" : "@Author::DBOOK/ScriptDir",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::MakeMaker",
@@ -440,7 +441,7 @@
                }
             },
             "name" : "@Author::DBOOK/MakeMaker",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::RunExtraTests",
@@ -460,82 +461,82 @@
          {
             "class" : "Dist::Zilla::Plugin::Manifest",
             "name" : "@Author::DBOOK/Manifest",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::TestRelease",
             "name" : "@Author::DBOOK/TestRelease",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::ConfirmRelease",
             "name" : "@Author::DBOOK/ConfirmRelease",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::UploadToCPAN",
             "name" : "@Author::DBOOK/UploadToCPAN",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaNoIndex",
             "name" : "MetaNoIndex",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":InstallModules",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":IncModules",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":TestFiles",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":ExtraTestFiles",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":ExecFiles",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":PerlExecFiles",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":ShareFiles",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":MainModule",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":AllFiles",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":NoFiles",
-            "version" : "6.006"
+            "version" : "6.007"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : "@Author::DBOOK/MetaProvides::Package/AUTOVIV/:InstallModulesPM",
-            "version" : "6.006"
+            "version" : "6.007"
          }
       ],
       "zilla" : {
@@ -543,7 +544,7 @@
          "config" : {
             "is_trial" : "0"
          },
-         "version" : "6.006"
+         "version" : "6.007"
       }
    },
    "x_contributors" : [

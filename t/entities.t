@@ -47,4 +47,8 @@ is html_escape('привет'), 'привет', 'right HTML escaped result';
 is html_escape('привет<foo>'), 'привет&lt;foo&gt;',
   'right HTML escaped result';
 
+# Hide DATA usage from error messages
+eval { die 'whatever' };
+unlike $@, qr/DATA/, 'DATA has been hidden';
+
 done_testing;
