@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+1.001     2016-11-23 16:17:25 EST
   - Fix bug in Mojo::DOM58::Entities where the DATA handle would be mentioned
     in error messages. (from Mojolicious 7.03)
 
