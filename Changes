@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+1.002     2017-04-01 16:11:40 EDT
   - Added html_attr_unescape function to Mojo::DOM58::Entities. (from
     Mojolicious 7.29)
   - Fixed unescaping of HTML5 attribute values. (from Mojolicious 7.29)
