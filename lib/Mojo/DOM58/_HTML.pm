@@ -6,7 +6,7 @@ package Mojo::DOM58::_HTML;
 
 use strict;
 use warnings;
-use Mojo::DOM58::Entities qw(html_escape html_unescape);
+use Mojo::DOM58::Entities qw(html_attr_unescape html_escape html_unescape);
 use Scalar::Util 'weaken';
 
 our $VERSION = '1.002';
@@ -149,7 +149,7 @@ sub parse {
           # Empty tag
           ++$closing and next if $key eq '/';
 
-          $attrs{$key} = defined $value ? html_unescape $value : $value;
+          $attrs{$key} = defined $value ? html_attr_unescape $value : $value;
         }
 
         # "image" is an alias for "img"

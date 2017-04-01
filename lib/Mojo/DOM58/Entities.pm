@@ -6,7 +6,7 @@ use Exporter 'import';
 
 our $VERSION = '1.002';
 
-our @EXPORT_OK = qw(html_escape html_unescape);
+our @EXPORT_OK = qw(html_attr_unescape html_escape html_unescape);
 
 # To generate a new HTML entity table run this command
 # perl examples/entities.pl
@@ -26,31 +26,39 @@ my %ESCAPE = (
   '\'' => '&#39;'
 );
 
+# HTML entities
+my $ENTITY_RE = qr/&(?:\#((?:[0-9]{1,7}|x[0-9a-fA-F]{1,6}));|(\w+[;=]?))/;
+
 sub html_escape {
   my $str = shift;
   $str =~ s/([&<>"'])/$ESCAPE{$1}/ge;
   return $str;
 }
 
-sub html_unescape {
-  my $str = shift;
-  $str =~ s/&(?:\#((?:[0-9]{1,7}|x[0-9a-fA-F]{1,6}));|(\w+;?))/_decode($1, $2)/ge;
-  return $str;
-}
+sub html_attr_unescape { _html(shift, 1) }
+sub html_unescape      { _html(shift, 0) }
 
-sub _decode {
-  my ($point, $name) = @_;
+sub _entity {
+  my ($point, $name, $attr) = @_;
   
   # Code point
   return chr($point !~ /^x/ ? $point : hex $point) unless defined $name;
   
   # Named character reference
-  my $rest = '';
+  my $rest = my $last = '';
   while (length $name) {
-    return $ENTITIES{$name} . reverse $rest if exists $ENTITIES{$name};
-    $rest .= chop $name;
+    return $ENTITIES{$name} . reverse $rest
+      if exists $ENTITIES{$name}
+      && (!$attr || $name =~ /;$/ || $last !~ /[A-Za-z0-9=]/);
+    $rest .= $last = chop $name;
   }
   return '&' . reverse $rest;
+}
+
+sub _html {
+  my ($str, $attr) = @_;
+  $str =~ s/$ENTITY_RE/_entity($1, $2, $attr)/geo;
+  return $str;
 }
 
 1;
@@ -76,6 +84,19 @@ entities for L<Mojo::DOM58>, based on functions from L<Mojo::Util>. All
 functions are exported on demand.
 
 =head1 FUNCTIONS
+
+=head2 html_attr_unescape
+
+  my $str = html_attr_unescape $escaped;
+
+Same as L</"html_unescape">, but handles special rules from the
+L<HTML Living Standard|https://html.spec.whatwg.org> for HTML attributes.
+
+  # "foo=bar&ltest=baz"
+  html_attr_unescape 'foo=bar&ltest=baz';
+
+  # "foo=bar<est=baz"
+  html_attr_unescape 'foo=bar&lt;est=baz';
 
 =head2 html_escape
 

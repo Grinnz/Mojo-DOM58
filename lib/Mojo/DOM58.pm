@@ -404,7 +404,7 @@ closely compatible with upstream. It differs only in the standalone format and
 compatibility with Perl 5.8. Any bugs or patches not related to these changes
 should be reported directly to the L<Mojolicious> issue tracker.
 
-This release of L<Mojo::DOM58> is up to date with version C<7.10> of
+This release of L<Mojo::DOM58> is up to date with version C<7.29> of
 L<Mojolicious>.
 
 =head1 NODES AND ELEMENTS
