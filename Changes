@@ -1,4 +1,5 @@
 {{$NEXT}}
+  - Performance improvements (from Mojolicious 7.34)
 
 1.002     2017-04-01 16:11:40 EDT
   - Added html_attr_unescape function to Mojo::DOM58::Entities. (from
