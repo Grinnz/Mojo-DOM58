@@ -179,7 +179,8 @@ sub val {
   return $tag eq 'textarea' ? $self->text : $self->{value} if $tag ne 'select';
 
   # "select"
-  my $v = $self->find('option:checked')->map('val');
+  my $v = $self->find('option:checked:not([disabled])')
+    ->grep(sub { !$_->ancestors('optgroup[disabled]')->size })->map('val');
   return exists $self->{multiple} ? $v->size ? $v->to_array : undef : $v->last;
 }
 
@@ -638,11 +639,28 @@ An C<E> element with C<ID> equal to "myid".
 
   my $foo = $dom->at('div#foo');
 
-=item E:not(s)
+=item E:not(s1, s2)
 
-An C<E> element that does not match simple selector C<s>.
+An C<E> element that does not match either compound selector C<s1> or compound
+selector C<s2>. Note that support for compound selectors is EXPERIMENTAL and
+might change without warning!
 
-  my $others = $dom->find('div p:not(:first-child)');
+  my $others = $dom->find('div p:not(:first-child, :last-child)');
+
+Support for compound selectors was added as part of
+L<Selectors Level 4|http://dev.w3.org/csswg/selectors-4>, which is still a work
+in progress.
+
+=item E:matches(s1, s2)
+
+An C<E> element that matches compound selector C<s1> and/or compound selector
+C<s2>. Note that this selector is EXPERIMENTAL and might change without warning!
+
+  my $headers = $dom->find(':matches(section, article, aside, nav) h1');
+
+This selector is part of
+L<Selectors Level 4|http://dev.w3.org/csswg/selectors-4>, which is still a work
+in progress.
 
 =item E F
 

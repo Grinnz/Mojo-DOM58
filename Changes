@@ -1,4 +1,7 @@
 {{$NEXT}}
+  - Added EXPERIMENTAL support for :matches pseudo-class and :not pseudo-class
+    with compound selectors. (from Mojolicious 7.33)
+  - Fixed a few form element value extraction bugs. (from Mojolicious 7.33)
   - Performance improvements (from Mojolicious 7.34)
 
 1.002     2017-04-01 16:11:40 EDT
