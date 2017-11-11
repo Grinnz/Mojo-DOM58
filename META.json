@@ -37,6 +37,7 @@
       "develop" : {
          "requires" : {
             "Pod::Coverage::TrustPod" : "0",
+            "Role::Tiny" : "2.000001",
             "Test::Pod" : "1.41",
             "Test::Pod::Coverage" : "1.08"
          }
@@ -69,11 +70,11 @@
    "provides" : {
       "Mojo::DOM58" : {
          "file" : "lib/Mojo/DOM58.pm",
-         "version" : "1.004"
+         "version" : "1.005"
       },
       "Mojo::DOM58::Entities" : {
          "file" : "lib/Mojo/DOM58/Entities.pm",
-         "version" : "1.004"
+         "version" : "1.005"
       }
    },
    "release_status" : "stable",
@@ -89,7 +90,7 @@
       },
       "x_IRC" : "irc://irc.perl.org/#mojo"
    },
-   "version" : "1.004",
+   "version" : "1.005",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.026001"
@@ -283,7 +284,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v1.004",
+                  "tag" : "v1.005",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
