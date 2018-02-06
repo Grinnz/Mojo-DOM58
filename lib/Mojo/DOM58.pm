@@ -16,7 +16,7 @@ use Mojo::DOM58::_CSS;
 use Mojo::DOM58::_HTML;
 use Scalar::Util qw(blessed weaken);
 
-our $VERSION = '1.005';
+our $VERSION = '1.006';
 
 sub new {
   my $class = shift;
