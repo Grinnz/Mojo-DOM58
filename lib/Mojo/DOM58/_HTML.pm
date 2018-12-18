@@ -6,10 +6,13 @@ package Mojo::DOM58::_HTML;
 
 use strict;
 use warnings;
+use Exporter 'import';
 use Mojo::DOM58::Entities qw(html_attr_unescape html_escape html_unescape);
 use Scalar::Util 'weaken';
 
 our $VERSION = '1.006';
+
+our @EXPORT_OK = 'tag_to_html';
 
 my $ATTR_RE = qr/
   ([^<>=\s\/]+|\/)                         # Key
@@ -103,6 +106,10 @@ sub new {
   my $class = shift;
   bless @_ ? @_ > 1 ? {@_} : {%{$_[0]}} : {}, ref $class || $class;
 }
+
+sub tag { shift->tree(['root', _tag(@_)]) }
+
+sub tag_to_html { _render(_tag(@_), undef) }
 
 sub tree {
   my $self = shift;
@@ -287,6 +294,22 @@ sub _start {
   push @$$current, my $new = ['tag', $start, $attrs, $$current];
   weaken $new->[3];
   $$current = $new;
+}
+
+sub _tag {
+  my $tree = ['tag', shift, undef, undef];
+
+  # Content
+  if (ref $_[-1] eq 'CODE') { push @$tree, ['raw', pop->()] }
+  elsif (@_ % 2) { push @$tree, ['text', pop] }
+
+  # Attributes
+  my $attrs = $tree->[2] = {@_};
+  if (ref $attrs->{data} eq 'HASH' && (my $data = delete $attrs->{data})) {
+    @$attrs{map { y/_/-/; lc "data-$_" } keys %$data} = values %$data;
+  }
+
+  return $tree;
 }
 
 1;

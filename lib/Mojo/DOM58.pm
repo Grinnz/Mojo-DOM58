@@ -10,13 +10,16 @@ use overload
   '""'     => sub { shift->to_string },
   fallback => 1;
 
+use Exporter 'import';
 use Mojo::DOM58::_Collection;
 use Mojo::DOM58::_CSS;
-use Mojo::DOM58::_HTML;
+use Mojo::DOM58::_HTML 'tag_to_html';
 use Scalar::Util qw(blessed weaken);
 use Storable 'dclone';
 
 our $VERSION = '1.006';
+
+our @EXPORT_OK = 'tag_to_html';
 
 sub new {
   my $class = shift;
@@ -106,6 +109,14 @@ sub namespace {
   }
 
   return undef;
+}
+
+sub new_tag {
+  my $self = shift;
+  my $new  = $self->new;
+  $$new->tag(@_);
+  $$new->xml($$self->xml) if ref $self;
+  return $new;
 }
 
 sub next      { $_[0]->_maybe($_[0]->_siblings(1, 1, 0)) }
@@ -389,6 +400,7 @@ Mojo::DOM58 - Minimalistic HTML/XML DOM parser with CSS selectors
 
   # Modify
   $dom->find('div p')->last->append('<p id="c">456</p>');
+  $dom->at('#c')->prepend($dom->new_tag('p', id => 'd', '789'));
   $dom->find(':not(p)')->map('strip');
 
   # Render
@@ -774,6 +786,19 @@ Alias for L</"attr">.
 
 Alias for L</"to_string">.
 
+=head1 FUNCTIONS
+
+L<Mojo::DOM58> implements the following functions, which can be imported
+individually.
+
+=head2 tag_to_html
+
+  my $str = tag_to_html 'div', id => 'foo', 'safe content';
+
+Generate HTML/XML tag and render it right away. This is a significantly faster
+alternative to L</"new_tag"> for template systems that have to generate a lot
+of tags.
+
 =head1 METHODS
 
 L<Mojo::DOM58> implements the following methods.
@@ -1032,6 +1057,45 @@ Find this element's namespace, or return C<undef> if none could be found.
 
   # Find namespace for an element that may or may not have a namespace prefix
   my $namespace = $dom->at('svg > circle')->namespace;
+
+=head2 new_tag
+
+  my $tag = Mojo::DOM58->new_tag('div');
+  my $tag = $dom->new_tag('div');
+  my $tag = $dom->new_tag('div', id => 'foo', hidden => undef);
+  my $tag = $dom->new_tag('div', 'safe content');
+  my $tag = $dom->new_tag('div', id => 'foo', 'safe content');
+  my $tag = $dom->new_tag('div', data => {mojo => 'rocks'}, 'safe content');
+  my $tag = $dom->new_tag('div', id => 'foo', sub { 'unsafe content' });
+
+Construct a new L<Mojo::DOM58> object for an HTML/XML tag with or without
+attributes and content. The C<data> attribute may contain a hash reference with
+key/value pairs to generate attributes from.
+
+  # "<br>"
+  $dom->new_tag('br');
+
+  # "<div></div>"
+  $dom->new_tag('div');
+
+  # "<div id="foo" hidden></div>"
+  $dom->new_tag('div', id => 'foo', hidden => undef);
+
+  # "<div>test &amp; 123</div>"
+  $dom->new_tag('div', 'test & 123');
+
+  # "<div id="foo">test &amp; 123</div>"
+  $dom->new_tag('div', id => 'foo', 'test & 123');
+
+  # "<div data-foo="1" data-bar="test">test &amp; 123</div>""
+  $dom->new_tag('div', data => {foo => 1, Bar => 'test'}, 'test & 123');
+
+  # "<div id="foo">test & 123</div>"
+  $dom->new_tag('div', id => 'foo', sub { 'test & 123' });
+
+  # "<div>Hello<b>Mojo!</b></div>"
+  $dom->parse('<div>Hello</div>')->at('div')
+    ->append_content($dom->new_tag('b', 'Mojo!'))->root;
 
 =head2 next
 
