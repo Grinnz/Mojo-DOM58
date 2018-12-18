@@ -7,7 +7,7 @@ package Mojo::DOM58::_CSS;
 use strict;
 use warnings;
 
-our $VERSION = '1.006';
+our $VERSION = '2.001';
 
 my $ESCAPE_RE = qr/\\[^0-9a-fA-F]|\\[0-9a-fA-F]{1,6}/;
 my $ATTR_RE   = qr/

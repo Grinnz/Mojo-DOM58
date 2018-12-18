@@ -10,7 +10,7 @@ use Exporter 'import';
 use Mojo::DOM58::Entities qw(html_attr_unescape html_escape html_unescape);
 use Scalar::Util 'weaken';
 
-our $VERSION = '1.006';
+our $VERSION = '2.001';
 
 our @EXPORT_OK = 'tag_to_html';
 
