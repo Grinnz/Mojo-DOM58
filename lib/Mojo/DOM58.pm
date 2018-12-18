@@ -10,7 +10,6 @@ use overload
   '""'     => sub { shift->to_string },
   fallback => 1;
 
-use Carp 'croak';
 use Mojo::DOM58::_Collection;
 use Mojo::DOM58::_CSS;
 use Mojo::DOM58::_HTML;
@@ -78,7 +77,10 @@ sub content {
 
 sub descendant_nodes { $_[0]->_collect(_all(_nodes($_[0]->tree))) }
 
-sub find { $_[0]->_collect($_[0]->_css->select($_[1])) }
+sub find {
+  my $self = shift;
+  return $self->_collect($self->_css->select(@_));
+}
 
 sub following { _select($_[0]->_collect($_[0]->_siblings(1, 1)), $_[1]) }
 sub following_nodes { $_[0]->_collect($_[0]->_siblings(0, 1)) }
@@ -664,6 +666,19 @@ This selector is part of
 L<Selectors Level 4|http://dev.w3.org/csswg/selectors-4>, which is still a work
 in progress.
 
+=item A|E
+
+An C<E> element that belongs to the namespace alias C<A> from
+L<CSS Namespaces Module Level 3|https://www.w3.org/TR/css-namespaces-3/>.
+Key/value pairs passed to selector methods are used to declare namespace
+aliases.
+
+  my $elem = $dom->find('lq|elem', lq => 'http://example.com/q-markup');
+
+Using an empty alias searches for an element that belongs to no namespace.
+
+  my $div = $dom->find('|div');
+
 =item E F
 
 An C<F> element descendant of an C<E> element.
@@ -804,6 +819,7 @@ node's content.
 =head2 at
 
   my $result = $dom->at('div ~ p');
+  my $result = $dom->at('svg|line', svg => 'http://www.w3.org/2000/svg');
 
 Find first descendant element of this element matching the CSS selector and
 return it as a L<Mojo::DOM58> object, or C<undef> if none could be found. All
@@ -811,6 +827,12 @@ selectors listed in L</"SELECTORS"> are supported.
 
   # Find first element with "svg" namespace definition
   my $namespace = $dom->at('[xmlns\:svg]')->{'xmlns:svg'};
+
+Trailing key/value pairs can be used to declare xml namespace aliases.
+
+  # "<rect />"
+  $dom->parse('<svg xmlns="http://www.w3.org/2000/svg"><rect /></svg>')
+    ->at('svg|rect', svg => 'http://www.w3.org/2000/svg');
 
 =head2 attr
 
@@ -905,6 +927,7 @@ this element as L<Mojo::DOM58> objects.
 =head2 find
 
   my $collection = $dom->find('div ~ p');
+  my $collection = $dom->find('svg|line', svg => 'http://www.w3.org/2000/svg');
 
 Find all descendant elements of this element matching the CSS selector and
 return a L<collection|/"COLLECTION METHODS"> containing these elements as
@@ -921,6 +944,12 @@ L<Mojo::DOM58> objects. All selectors listed in L</"SELECTORS"> are supported.
 
   # Find elements with a class that contains dots
   my @divs = $dom->find('div.foo\.bar')->each;
+
+Trailing key/value pairs can be used to declare xml namespace aliases.
+
+  # "<rect />"
+  $dom->parse('<svg xmlns="http://www.w3.org/2000/svg"><rect /></svg>')
+    ->find('svg|rect', svg => 'http://www.w3.org/2000/svg')->first;
 
 =head2 following
 
@@ -947,6 +976,7 @@ this node as L<Mojo::DOM58> objects.
 =head2 matches
 
   my $bool = $dom->matches('div ~ p');
+  my $bool = $dom->matches('svg|line', svg => 'http://www.w3.org/2000/svg');
 
 Check if this element matches the CSS selector. All selectors listed in
 L</"SELECTORS"> are supported.
@@ -958,6 +988,12 @@ L</"SELECTORS"> are supported.
   # False
   $dom->parse('<p class="a">A</p>')->at('p')->matches('.b');
   $dom->parse('<p class="a">A</p>')->at('p')->matches('p[id]');
+
+Trailing key/value pairs can be used to declare xml namespace aliases.
+
+  # True
+  $dom->parse('<svg xmlns="http://www.w3.org/2000/svg"><rect /></svg>')
+    ->matches('svg|rect', svg => 'http://www.w3.org/2000/svg');
 
 =head2 namespace
 

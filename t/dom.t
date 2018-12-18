@@ -2553,6 +2553,82 @@ $dom = Mojo::DOM58->new($huge);
 is $dom->all_text, 'works', 'right text';
 is "$dom", $huge, 'right result';
 
+# Namespace
+$dom = Mojo::DOM58->new->xml(1)->parse(<<EOF);
+<tag xmlns:myns="coolns">
+  <this>foo</this>
+  <myns:this>bar</myns:this>
+</tag>
+EOF
+my %ns = (cool => 'coolns');
+is_deeply $dom->find('cool|this', %ns)->map('text'), ['bar'], 'right result';
+is_deeply $dom->find('cool|*',    %ns)->map('text'), ['bar'], 'right result';
+is_deeply $dom->find('|this',     %ns)->map('text'), ['foo'], 'right result';
+is_deeply $dom->find('*|this', %ns)->map('text'), ['foo', 'bar'],
+  'right result';
+ok !$dom->at('foo|*'), 'no result';
+
+# Namespace declaration on the same tag
+$dom = Mojo::DOM58->new->xml(1)->parse('<x:tag xmlns:x="ns" foo="bar" />');
+is $dom->at('ns|tag', ns => 'ns')->{foo}, 'bar', 'right result';
+
+# Explicit no namespace
+$dom = Mojo::DOM58->new->xml(1)->parse('<foo xmlns=""><bar /></foo>');
+ok $dom->at('|bar'), 'result';
+
+# Nested namespaces
+$dom = Mojo::DOM58->new->xml(1)->parse(<<EOF);
+<foo xmlns="ns:foo">
+  <tag val="1" />
+  <bar xmlns="ns:bar">
+    <tag val="2" />
+    <baz />
+  </bar>
+</foo>
+EOF
+%ns = (foons => 'ns:foo', barns => 'ns:bar');
+ok $dom->at('foons|foo',                   %ns), 'result';
+ok $dom->at('foons|foo:not(barns|*)',      %ns), 'result';
+ok $dom->at('foo:not(|foo)',               %ns), 'result';
+ok $dom->at('foons|foo:root',              %ns), 'result';
+ok $dom->at('foo:matches(:root, foons|*)', %ns), 'result';
+ok !$dom->at('foons|foo:not(:root)', %ns), 'no result';
+is $dom->at('foons|tag',       %ns)->{val}, 1, 'right value';
+is $dom->at('foons|tag:empty', %ns)->{val}, 1, 'right value';
+ok $dom->at('foons|tag[val="1"]',             %ns), 'result';
+ok $dom->at('foons|tag[val="1"]:empty',       %ns), 'result';
+ok $dom->at('foo > foons|tag[val="1"]',       %ns), 'result';
+ok $dom->at('foons|foo > foons|tag[val="1"]', %ns), 'result';
+ok $dom->at('foo foons|tag[val="1"]',         %ns), 'result';
+ok $dom->at('foons|foo foons|tag[val="1"]',   %ns), 'result';
+ok $dom->at('barns|bar',                      %ns), 'result';
+ok $dom->at('barns|bar:not(foons|*)',         %ns), 'result';
+ok $dom->at('bar:not(|bar)',                  %ns), 'result';
+ok $dom->at('bar:matches(barns|*)',           %ns), 'result';
+ok !$dom->at('barns|bar:root', %ns), 'no result';
+ok $dom->at('barns|bar:not(:root)',              %ns), 'result';
+ok $dom->at('bar:matches(barns|*, :not(:root))', %ns), 'result';
+ok $dom->at('foons|foo barns|bar',               %ns), 'result';
+is $dom->at('barns|tag',       %ns)->{val}, 2, 'right value';
+is $dom->at('barns|tag:empty', %ns)->{val}, 2, 'right value';
+ok $dom->at('barns|tag[val="2"]',                           %ns), 'result';
+ok $dom->at('barns|tag[val="2"]:empty',                     %ns), 'result';
+ok $dom->at('bar > barns|tag[val="2"]',                     %ns), 'result';
+ok $dom->at('barns|bar > barns|tag[val="2"]',               %ns), 'result';
+ok $dom->at('bar barns|tag[val="2"]',                       %ns), 'result';
+ok $dom->at('barns|bar barns|tag[val="2"]',                 %ns), 'result';
+ok $dom->at('foons|foo barns|bar baz',                      %ns), 'result';
+ok $dom->at('foons|foo barns|bar barns|baz',                %ns), 'result';
+ok $dom->at('foons|foo barns|bar barns|tag[val="2"] + baz', %ns), 'result';
+ok $dom->at('foons|foo barns|bar barns|tag[val="2"] + barns|baz', %ns),
+  'result';
+ok $dom->at('foons|foo barns|bar barns|tag[val="2"] ~ baz', %ns), 'result';
+ok $dom->at('foons|foo barns|bar barns|tag[val="2"] ~ barns|baz', %ns),
+  'result';
+ok !$dom->at('foons|bar', %ns), 'no result';
+ok !$dom->at('foons|baz', %ns), 'no result';
+ok $dom->at('baz')->matches('barns|*', %ns), 'match';
+
 # TO_JSON
 is +JSON::PP->new->convert_blessed->encode([Mojo::DOM58->new('<a></a>')]), '["<a></a>"]', 'right result';
 
