@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+2.000     2018-12-17 20:49:49 EST
   - Fixed warnings in collection uniq method when collection contains undefined
     values. (from Mojolicious 7.75)
   - Added support for namespace selectors like "ns|*". (from Mojolicious 7.77)
