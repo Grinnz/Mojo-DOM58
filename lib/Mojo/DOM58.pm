@@ -631,6 +631,20 @@ An C<E> element that has no children (including text nodes).
 
   my $empty = $dom->find(':empty');
 
+=item E:link
+
+An C<E> element being the source anchor of a hyperlink of which the target is
+not yet visited (C<:link>) or already visited (C<:visited>). Note that
+L<Mojo::DOM58> is not stateful, therefore C<:link> and C<:visited> yield
+exactly the same results.
+
+  my $links = $dom->find(':link');
+  my $links = $dom->find(':visited');
+
+=item E:visited
+
+Alias for L</"E:link">.
+
 =item E:checked
 
 A user interface element C<E> which is checked (for instance a radio-button or

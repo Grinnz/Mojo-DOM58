@@ -218,6 +218,12 @@ sub _pc {
   # ":root"
   return $current->[3] && $current->[3][0] eq 'root' if $class eq 'root';
 
+  # ":link" and ":visited"
+  if ($class eq 'link' || $class eq 'visited') {
+    return undef unless $current->[0] eq 'tag' && exists $current->[2]{href};
+    return !!grep { $current->[1] eq $_ } qw(a area link);
+  }
+
   # ":nth-child", ":nth-last-child", ":nth-of-type" or ":nth-last-of-type"
   if (ref $args) {
     my $type = $class =~ /of-type$/ ? $current->[1] : undef;
