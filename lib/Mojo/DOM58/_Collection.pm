@@ -106,8 +106,8 @@ sub to_array { [@{shift()}] }
 sub uniq {
   my ($self, $cb) = (shift, shift);
   my %seen;
-  return $self->new(grep { !$seen{$_->$cb(@_)}++ } @$self) if $cb;
-  return $self->new(grep { !$seen{$_}++ } @$self);
+  return $self->new(grep { my $r = $_->$cb(@_); !$seen{defined $r ? $r : ''}++ } @$self) if $cb;
+  return $self->new(grep { !$seen{defined $_ ? $_ : ''}++ } @$self);
 }
 
 sub with_roles {

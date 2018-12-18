@@ -1643,7 +1643,8 @@ Turn collection into array reference.
 
 Create a new L<collection|/"COLLECTION METHODS"> without duplicate elements,
 using the string representation of either the elements or the return value of
-the callback/method.
+the callback/method to decide uniqueness. Note that C<undef> and empty string
+are treated the same.
 
   # Longer version
   my $new = $collection->uniq(sub { $_->$method(@args) });
