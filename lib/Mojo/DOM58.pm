@@ -14,6 +14,7 @@ use Mojo::DOM58::_Collection;
 use Mojo::DOM58::_CSS;
 use Mojo::DOM58::_HTML;
 use Scalar::Util qw(blessed weaken);
+use Storable 'dclone';
 
 our $VERSION = '1.006';
 
@@ -23,7 +24,7 @@ sub new {
   return @_ ? $self->parse(@_) : $self;
 }
 
-sub TO_JSON { shift->_delegate('render') }
+sub TO_JSON { ${shift()}->render }
 
 sub all_text { _text(_nodes(shift->tree), 1) }
 
@@ -116,7 +117,7 @@ sub parent {
   return $self->_build(_parent($tree), $self->xml);
 }
 
-sub parse { shift->_delegate(parse => @_) }
+sub parse { ${$_[0]}->parse($_[1]) and return $_[0] }
 
 sub preceding { _select($_[0]->_collect($_[0]->_siblings(1, 0)), $_[1]) }
 sub preceding_nodes { $_[0]->_collect($_[0]->_siblings(0)) }
@@ -159,9 +160,9 @@ sub tap { Mojo::DOM58::_Collection::tap(@_) }
 
 sub text { _text(_nodes(shift->tree), 0) }
 
-sub to_string { shift->_delegate('render') }
+sub to_string { ${shift()}->render }
 
-sub tree { shift->_delegate(tree => @_) }
+sub tree { @_ > 1 ? (${$_[0]}->tree($_[1]) and return $_[0]) : ${$_[0]}->tree }
 
 sub type { shift->tree->[0] }
 
@@ -191,7 +192,7 @@ sub with_roles { Mojo::DOM58::_Collection::with_roles(@_) }
 sub wrap         { shift->_wrap(0, @_) }
 sub wrap_content { shift->_wrap(1, @_) }
 
-sub xml { shift->_delegate(xml => @_) }
+sub xml { @_ > 1 ? (${$_[0]}->xml($_[1]) and return $_[0]) : ${$_[0]}->xml }
 
 sub _add {
   my ($self, $offset, $new) = @_;
@@ -247,12 +248,7 @@ sub _content {
 
 sub _css { Mojo::DOM58::_CSS->new(tree => shift->tree) }
 
-sub _delegate {
-  my ($self, $method) = (shift, shift);
-  return $$self->$method unless @_;
-  $$self->$method(@_);
-  return $self;
-}
+sub _fragment { _link(my $r = ['root', @_], [@_]); $r }
 
 sub _link {
   my ($parent, $children) = @_;
@@ -284,7 +280,13 @@ sub _offset {
 
 sub _parent { $_[0]->[$_[0][0] eq 'tag' ? 3 : 2] }
 
-sub _parse { Mojo::DOM58::_HTML->new(xml => shift->xml)->parse(shift)->tree }
+sub _parse {
+  my ($self, $input) = @_;
+  return Mojo::DOM58::_HTML->new(xml => $self->xml)->parse($input)->tree
+    unless blessed $input && $input->isa('Mojo::DOM58');
+  my $tree = dclone $input->tree;
+  return $tree->[0] eq 'root' ? $tree : _fragment($tree);
+}
 
 sub _replace {
   my ($self, $parent, $child, $nodes) = @_;
@@ -808,6 +810,7 @@ objects. All selectors listed in L</"SELECTORS"> are supported.
 =head2 append
 
   $dom = $dom->append('<p>I ♥ Mojo::DOM58!</p>');
+  $dom = $dom->append(Mojo::DOM58->new);
 
 Append HTML/XML fragment to this node (for all node types other than C<root>).
 
@@ -822,6 +825,7 @@ Append HTML/XML fragment to this node (for all node types other than C<root>).
 =head2 append_content
 
   $dom = $dom->append_content('<p>I ♥ Mojo::DOM58!</p>');
+  $dom = $dom->append_content(Mojo::DOM58->new);
 
 Append HTML/XML fragment (for C<root> and C<tag> nodes) or raw content to this
 node's content.
@@ -905,6 +909,7 @@ objects. All selectors listed in L</"SELECTORS"> are supported.
 
   my $str = $dom->content;
   $dom    = $dom->content('<p>I ♥ Mojo::DOM58!</p>');
+  $dom    = $dom->content(Mojo::DOM58->new);
 
 Return this node's content or replace it with HTML/XML fragment (for C<root>
 and C<tag> nodes) or raw content.
@@ -1097,6 +1102,7 @@ before this node as L<Mojo::DOM58> objects.
 =head2 prepend
 
   $dom = $dom->prepend('<p>I ♥ Mojo::DOM58!</p>');
+  $dom = $dom->prepend(Mojo::DOM58->new);
 
 Prepend HTML/XML fragment to this node (for all node types other than C<root>).
 
@@ -1111,6 +1117,7 @@ Prepend HTML/XML fragment to this node (for all node types other than C<root>).
 =head2 prepend_content
 
   $dom = $dom->prepend_content('<p>I ♥ Mojo::DOM58!</p>');
+  $dom = $dom->prepend_content(Mojo::DOM58->new);
 
 Prepend HTML/XML fragment (for C<root> and C<tag> nodes) or raw content to this
 node's content.
@@ -1167,6 +1174,7 @@ Remove this node and return L</"root"> (for C<root> nodes) or L</"parent">.
 =head2 replace
 
   my $parent = $dom->replace('<div>I ♥ Mojo::DOM58!</div>');
+  my $parent = $dom->replace(Mojo::DOM58->new);
 
 Replace this node with HTML/XML fragment and return L</"root"> (for C<root>
 nodes) or L</"parent">.
@@ -1311,6 +1319,7 @@ L<Role::Tiny> (2.000001+).
 =head2 wrap
 
   $dom = $dom->wrap('<div></div>');
+  $dom = $dom->wrap(Mojo::DOM58->new);
 
 Wrap HTML/XML fragment around this node (for all node types other than C<root>),
 placing it as the last child of the first innermost element.
@@ -1330,6 +1339,7 @@ placing it as the last child of the first innermost element.
 =head2 wrap_content
 
   $dom = $dom->wrap_content('<div></div>');
+  $dom = $dom->wrap_content(Mojo::DOM58->new);
 
 Wrap HTML/XML fragment around this node's content (for C<root> and C<tag>
 nodes), placing it as the last children of the first innermost element.

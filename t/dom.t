@@ -2665,6 +2665,55 @@ is $dom->at('barns|bar [hreflang|=en-US]', %ns)->text, 'YADA', 'right text';
 ok !$dom->at('barns|bar [hreflang|=en-US-yada]', %ns), 'no result';
 ok !$dom->at('barns|bar [hreflang|=e]',          %ns), 'no result';
 
+# Reusing fragments
+my $fragment = Mojo::DOM58->new('<a><b>C</b></a>');
+$dom = Mojo::DOM58->new('<div></div>');
+is $fragment, '<a><b>C</b></a>', 'right result';
+$dom->at('div')->append($fragment);
+$dom->at('div')->append($fragment);
+is $dom, '<div></div><a><b>C</b></a><a><b>C</b></a>', 'right result';
+is $fragment, '<a><b>C</b></a>', 'right result';
+$dom = Mojo::DOM58->new('<div></div>');
+$dom->at('div')->append_content($fragment);
+$dom->at('div')->append_content($fragment);
+is $dom, '<div><a><b>C</b></a><a><b>C</b></a></div>', 'right result';
+is $fragment, '<a><b>C</b></a>', 'right result';
+$dom = Mojo::DOM58->new('<div></div>');
+$dom->at('div')->content($fragment);
+$dom->at('div a')->content($fragment);
+is $dom, '<div><a><a><b>C</b></a></a></div>', 'right result';
+is $fragment, '<a><b>C</b></a>', 'right result';
+$dom = Mojo::DOM58->new('<div></div>');
+$dom->at('div')->prepend($fragment);
+$dom->at('div')->prepend($fragment);
+is $dom, '<a><b>C</b></a><a><b>C</b></a><div></div>', 'right result';
+is $fragment, '<a><b>C</b></a>', 'right result';
+$dom = Mojo::DOM58->new('<div></div>');
+$dom->at('div')->prepend_content($fragment);
+$dom->at('div')->prepend_content($fragment);
+is $dom, '<div><a><b>C</b></a><a><b>C</b></a></div>', 'right result';
+is $fragment, '<a><b>C</b></a>', 'right result';
+$dom = Mojo::DOM58->new('<div></div>');
+$dom->at('div')->replace($fragment);
+$dom->at('b')->replace($fragment);
+is $dom,      '<a><a><b>C</b></a></a>', 'right result';
+is $fragment, '<a><b>C</b></a>',        'right result';
+$dom = Mojo::DOM58->new('<div></div>');
+$dom->at('div')->wrap($fragment);
+$dom->at('b')->wrap($fragment);
+is $dom, '<a><a><b>C<b>C<div></div></b></b></a></a>', 'right result';
+is $fragment, '<a><b>C</b></a>', 'right result';
+$dom = Mojo::DOM58->new('<div></div>');
+$dom->at('div')->wrap_content($fragment);
+$dom->at('b')->wrap_content($fragment);
+is $dom, '<div><a><b><a><b>CC</b></a></b></a></div>', 'right result';
+is $fragment, '<a><b>C</b></a>', 'right result';
+
+# Reusing partial DOM trees
+$dom = $dom->parse('<div><b>Test</b></div>');
+is $dom->at('div')->prepend($dom->at('b'))->root,
+  '<b>Test</b><div><b>Test</b></div>', 'right result';
+
 # TO_JSON
 is +JSON::PP->new->convert_blessed->encode([Mojo::DOM58->new('<a></a>')]), '["<a></a>"]', 'right result';
 

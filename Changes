@@ -3,6 +3,8 @@
   - Added support for hyphen-separated list attribute selectors like
     "[hreflang|=en]". (from Mojolicious 7.77)
   - Added support for :link and :visited pseudo-classes. (from Mojolicious 7.77)
+  - Improved performance of all DOM manipulation methods significantly when
+    reusing Mojo::DOM58 objects. (from Mojolicious 7.78)
 
 1.005     2018-02-06 14:28:11 EST
   - Improved HTML Living Standard compliance (from Mojolicious 7.60)
