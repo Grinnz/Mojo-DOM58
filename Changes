@@ -7,6 +7,7 @@
     reusing Mojo::DOM58 objects. (from Mojolicious 7.78)
   - Added new_tag method. (from Mojolicious 7.78)
   - Added tag_to_html function. (from Mojolicious 7.78)
+  - Added selector method. (from Mojolicious 7.79)
 
 1.005     2018-02-06 14:28:11 EST
   - Improved HTML Living Standard compliance (from Mojolicious 7.60)
