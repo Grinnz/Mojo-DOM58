@@ -10,6 +10,7 @@
   - Added new_tag method. (from Mojolicious 7.78)
   - Added tag_to_html function. (from Mojolicious 7.78)
   - Added selector method. (from Mojolicious 7.79)
+  - Improved HTML5.2 compliance. (from Mojolicious 8.02)
 
 1.005     2018-02-06 14:28:11 EST
   - Improved HTML Living Standard compliance (from Mojolicious 7.60)
