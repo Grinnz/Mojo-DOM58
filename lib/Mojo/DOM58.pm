@@ -27,6 +27,14 @@ sub new {
   return @_ ? $self->parse(@_) : $self;
 }
 
+sub new_tag {
+  my $self = shift;
+  my $new  = $self->new;
+  $$new->tag(@_);
+  $$new->xml($$self->xml) if ref $self;
+  return $new;
+}
+
 sub TO_JSON { ${shift()}->render }
 
 sub all_text { _text(_nodes(shift->tree), 1) }
@@ -109,14 +117,6 @@ sub namespace {
   }
 
   return undef;
-}
-
-sub new_tag {
-  my $self = shift;
-  my $new  = $self->new;
-  $$new->tag(@_);
-  $$new->xml($$self->xml) if ref $self;
-  return $new;
 }
 
 sub next      { $_[0]->_maybe(_siblings($_[0]->tree, 1, 1, 0)) }
@@ -818,6 +818,45 @@ L<Mojo::DOM58> implements the following methods.
 Construct a new scalar-based L<Mojo::DOM58> object and L</"parse"> HTML/XML
 fragment if necessary.
 
+=head2 new_tag
+
+  my $tag = Mojo::DOM58->new_tag('div');
+  my $tag = $dom->new_tag('div');
+  my $tag = $dom->new_tag('div', id => 'foo', hidden => undef);
+  my $tag = $dom->new_tag('div', 'safe content');
+  my $tag = $dom->new_tag('div', id => 'foo', 'safe content');
+  my $tag = $dom->new_tag('div', data => {mojo => 'rocks'}, 'safe content');
+  my $tag = $dom->new_tag('div', id => 'foo', sub { 'unsafe content' });
+
+Construct a new L<Mojo::DOM58> object for an HTML/XML tag with or without
+attributes and content. The C<data> attribute may contain a hash reference with
+key/value pairs to generate attributes from.
+
+  # "<br>"
+  $dom->new_tag('br');
+
+  # "<div></div>"
+  $dom->new_tag('div');
+
+  # "<div id="foo" hidden></div>"
+  $dom->new_tag('div', id => 'foo', hidden => undef);
+
+  # "<div>test &amp; 123</div>"
+  $dom->new_tag('div', 'test & 123');
+
+  # "<div id="foo">test &amp; 123</div>"
+  $dom->new_tag('div', id => 'foo', 'test & 123');
+
+  # "<div data-foo="1" data-bar="test">test &amp; 123</div>""
+  $dom->new_tag('div', data => {foo => 1, Bar => 'test'}, 'test & 123');
+
+  # "<div id="foo">test & 123</div>"
+  $dom->new_tag('div', id => 'foo', sub { 'test & 123' });
+
+  # "<div>Hello<b>Mojo!</b></div>"
+  $dom->parse('<div>Hello</div>')->at('div')
+    ->append_content($dom->new_tag('b', 'Mojo!'))->root;
+
 =head2 all_text
 
   my $text = $dom->all_text;
@@ -1064,45 +1103,6 @@ Find this element's namespace, or return C<undef> if none could be found.
 
   # Find namespace for an element that may or may not have a namespace prefix
   my $namespace = $dom->at('svg > circle')->namespace;
-
-=head2 new_tag
-
-  my $tag = Mojo::DOM58->new_tag('div');
-  my $tag = $dom->new_tag('div');
-  my $tag = $dom->new_tag('div', id => 'foo', hidden => undef);
-  my $tag = $dom->new_tag('div', 'safe content');
-  my $tag = $dom->new_tag('div', id => 'foo', 'safe content');
-  my $tag = $dom->new_tag('div', data => {mojo => 'rocks'}, 'safe content');
-  my $tag = $dom->new_tag('div', id => 'foo', sub { 'unsafe content' });
-
-Construct a new L<Mojo::DOM58> object for an HTML/XML tag with or without
-attributes and content. The C<data> attribute may contain a hash reference with
-key/value pairs to generate attributes from.
-
-  # "<br>"
-  $dom->new_tag('br');
-
-  # "<div></div>"
-  $dom->new_tag('div');
-
-  # "<div id="foo" hidden></div>"
-  $dom->new_tag('div', id => 'foo', hidden => undef);
-
-  # "<div>test &amp; 123</div>"
-  $dom->new_tag('div', 'test & 123');
-
-  # "<div id="foo">test &amp; 123</div>"
-  $dom->new_tag('div', id => 'foo', 'test & 123');
-
-  # "<div data-foo="1" data-bar="test">test &amp; 123</div>""
-  $dom->new_tag('div', data => {foo => 1, Bar => 'test'}, 'test & 123');
-
-  # "<div id="foo">test & 123</div>"
-  $dom->new_tag('div', id => 'foo', sub { 'test & 123' });
-
-  # "<div>Hello<b>Mojo!</b></div>"
-  $dom->parse('<div>Hello</div>')->at('div')
-    ->append_content($dom->new_tag('b', 'Mojo!'))->root;
 
 =head2 next
 
