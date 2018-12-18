@@ -333,6 +333,9 @@ sub _value {
   # "~=" (word)
   return qr/(?:^|\s+)$value(?:\s+|$)/ if $op eq '~';
 
+  # "|=" (hyphen-separated)
+  return qr/^$value(?:-|$)/ if $op eq '|';
+
   # "*=" (contains)
   return qr/$value/ if $op eq '*';
 

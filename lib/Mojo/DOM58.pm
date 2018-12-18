@@ -540,6 +540,13 @@ An C<E> element whose C<foo> attribute value contains the substring C<bar>.
   my $contains = $dom->find('input[name*="fo"]');
   my $contains = $dom->find('input[name*=fo]');
 
+=item E[foo|="en"]
+
+An C<E> element whose C<foo> attribute has a hyphen-separated list of values
+beginning (from the left) with C<en>.
+
+  my $english = $dom->find('link[hreflang|=en]');
+
 =item E:root
 
 An C<E> element, root of the document.
