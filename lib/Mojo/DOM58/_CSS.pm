@@ -6,7 +6,8 @@ package Mojo::DOM58::_CSS;
 
 use strict;
 use warnings;
-use Data::Dumper;
+use Carp 'croak';
+use Data::Dumper ();
 
 use constant DEBUG => $ENV{MOJO_DOM58_CSS_DEBUG} || 0;
 
@@ -158,7 +159,7 @@ sub _compile {
       push @$last, ['tag', $name eq '*' ? undef : _name($name), _unescape($ns)];
     }
 
-    else {last}
+    else { pos $css < length $css ? croak "Unknown CSS selector: $css" : last }
   }
 
   warn qq{-- CSS Selector ($css)\n@{[_dumper($group)]}} if DEBUG;

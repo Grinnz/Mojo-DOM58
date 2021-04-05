@@ -3095,6 +3095,14 @@ subtest 'Root pseudo-class' => sub {
   is $dom->at(':scope:first-child'), undef, 'no result';
 };
 
+subtest 'Unknown CSS selector' => sub {
+  my $dom = Mojo::DOM58->new('<html><head></head><body><div><div>x</div></div></body></html>');
+  eval { $dom->at('div[') };
+  like $@, qr/Unknown CSS selector: div\[/, 'right error';
+  eval { $dom->find('p[') };
+  like $@, qr/Unknown CSS selector: p\[/, 'right error';
+};
+
 subtest 'TO_JSON' => sub {
   is +JSON::PP->new->convert_blessed->encode([Mojo::DOM58->new('<a></a>')]), '["<a></a>"]', 'right result';
 };

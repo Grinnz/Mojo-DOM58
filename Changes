@@ -11,6 +11,7 @@
     (from Mojolicious 8.54)
   - Added support for MOJO_DOM58_CSS_DEBUG environment variable to print
     diagnostics information for CSS selectors. (from Mojolicious 8.55)
+  - Unknown CSS selectors will now throw exceptions. (from Mojolicious 8.66)
 
 2.000     2018-12-17 20:49:49 EST
   - Fixed warnings in collection uniq method when collection contains undefined
