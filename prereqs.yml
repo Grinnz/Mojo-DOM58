@@ -1,0 +1,17 @@
+runtime:
+  requires:
+    perl: '5.008001'
+    Carp: 0
+    Exporter: '5.57'
+    List::Util: 0
+    Scalar::Util: 0
+  suggests:
+    Role::Tiny: '2.000001'
+test:
+  requires:
+    Encode: 0
+    JSON::PP: 0
+    Test::More: '0.88'
+develop:
+  requires:
+    Role::Tiny: '2.000001'
