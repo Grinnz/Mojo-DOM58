@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+3.000     2021-04-04 23:34:33 EDT
   - Added head and tail collection methods. (from Mojolicious 8.23)
   - Added EXPERIMENTAL support for :any-link pseudo-class. (from Mojolicious 8.42)
   - Added EXPERIMENTAL support for case-sensitive attribute selectors like
