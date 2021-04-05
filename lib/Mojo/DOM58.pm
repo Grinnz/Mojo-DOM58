@@ -1603,6 +1603,19 @@ and is also available as C<$_>.
   # Find all values that are greater than 5
   my $greater = $collection->grep(sub { $_ > 5 });
 
+=head2 head
+
+  my $new = $collection->head(4);
+  my $new = $collection->head(-2);
+
+Create a new L<collection|/"COLLECTION METHODS"> with up to the specified
+number of elements from the beginning of the collection. A negative number will
+count from the end.
+
+  # $collection contains ('A', 'B', 'C', 'D', 'E')
+  $collection->head(3)->join(' '); # "A B C"
+  $collection->head(-3)->join(' '); # "A B"
+
 =head2 join
 
   my $stream = $collection->join;
@@ -1688,6 +1701,19 @@ L<collection|/"COLLECTION METHODS"> from the results.
 
   # Sort values case-insensitive
   my $case_insensitive = $collection->sort(sub { uc($a) cmp uc($b) });
+
+=head2 tail
+
+  my $new = $collection->tail(4);
+  my $new = $collection->tail(-2);
+
+Create a new L<collection|/"COLLECTION METHODS"> with up to the specified
+number of elements from the end of the collection. A negative number will count
+from the beginning.
+
+  # $collection contains ('A', 'B', 'C', 'D', 'E')
+  $collection->tail(3)->join(' '); # "C D E"
+  $collection->tail(-3)->join(' '); # "D E"
 
 =head2 tap
 
