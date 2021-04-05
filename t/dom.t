@@ -1334,6 +1334,50 @@ EOF
   is $dom->at('#♥ ~ *:nth-last-child(2)')->text,        'F', 'right text';
 };
 
+subtest 'Scoped selectors' => sub {
+  my $dom = Mojo::DOM58->new(<<EOF);
+<p>Zero</p>
+<div>
+  <p>One</p>
+  <p>Two</p>
+  <p><a href="#">Link</a></p>
+</div>
+<div>
+  <p>Three</p>
+  <p>Four</p>
+  <i>Six</i>
+</div>
+<p>Five</p>
+EOF
+  is $dom->at('div p')->at(':scope')->text,   'One',  'right text';
+  is $dom->at('div')->at(':scope p')->text,   'One',  'right text';
+  is $dom->at('div')->at(':scope > p')->text, 'One',  'right text';
+  is $dom->at('div')->at('> p')->text,        'One',  'right text';
+  is $dom->at('div p')->at('+ p')->text,      'Two',  'right text';
+  is $dom->at('div p')->at('~ p')->text,      'Two',  'right text';
+  is $dom->at('div p')->at('~ p a')->text,    'Link', 'right text';
+  is $dom->at('div')->at(':scope a')->text,   'Link', 'right text';
+  is $dom->at('div')->at(':scope > a'), undef, 'no result';
+  is $dom->at('div')->at(':scope > p > a')->text, 'Link', 'right text';
+  is $dom->find('div')->last->at(':scope p')->text,   'Three', 'right text';
+  is $dom->find('div')->last->at(':scope > p')->text, 'Three', 'right text';
+  is $dom->find('div')->last->at('> p')->text,        'Three', 'right text';
+  is $dom->at('div p')->at(':scope + p')->text,                 'Two',  'right text';
+  is $dom->at('div')->at(':scope > p:nth-child(2), p a')->text, 'Two',  'right text';
+  is $dom->at('div')->at('p, :scope > p:nth-child(2)')->text,   'One',  'right text';
+  is $dom->at('div')->at('p:not(:scope > *)')->text,            'Zero', 'right text';
+  is $dom->at('div p:nth-child(2)')->at('*:is(:scope)')->text,  'Two',  'right text';
+  is $dom->at('div')->at('div p, ~ p')->text,                   'Five', 'right text';
+  is $dom->at('> p')->text, 'Zero', 'right text';
+  is $dom->at(':scope'), undef, 'no result';
+  is $dom->at(':scope p')->text,     'Zero', 'right text';
+  is $dom->at(':scope div p')->text, 'One',  'right text';
+  is $dom->at(':scope p a')->text,   'Link', 'right text';
+  is $dom->at('> p')->at('p ~ :scope'), undef, 'no result';
+  is $dom->at('> p:last-child')->at('p ~ :scope')->text, 'Five', 'righ text';
+};
+
+
 subtest 'Adding nodes' => sub {
   my $dom = Mojo::DOM58->new(<<EOF);
 <ul>
@@ -3003,6 +3047,46 @@ subtest 'Reusing partial DOM trees' => sub {
   my $dom = Mojo::DOM58->new->parse('<div><b>Test</b></div>');
   is $dom->at('div')->prepend($dom->at('b'))->root,
     '<b>Test</b><div><b>Test</b></div>', 'right result';
+};
+
+subtest 'Real world table with optional elements' => sub {
+  my $dom = Mojo::DOM58->new->parse(<<EOF);
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>key</th>
+          <th>secret</th>
+          <th>expires</th>
+          <th>action</th>
+      </thead>
+      <tbody>
+        <tr id="api_key_4">
+          <td class="key">PERCIVALKEY01</td>
+          <td class="secret">PERCIVALSECRET01</td>
+          <td class="expiration">2020-06-18 11:12:03 +0000</td>
+        <tr id="api_key_5">
+          <td class="key">PERCIVALKEY02</td>
+          <td class="secret">PERCIVALSECRET02</td>
+          <td class="expiration">never</td>
+      </tbody>
+    </table>
+  </body>
+</html>
+EOF
+  is $dom->at('thead tr th')->text,            'key',                       'right text';
+  is $dom->at('#api_key_4 .key')->text,        'PERCIVALKEY01',             'right text';
+  is $dom->at('#api_key_4 .secret')->text,     'PERCIVALSECRET01',          'right text';
+  is $dom->at('#api_key_4 .expiration')->text, '2020-06-18 11:12:03 +0000', 'right text';
+  is $dom->at('#api_key_5 .expiration')->text, 'never',                     'right text';
+};
+
+subtest 'Root pseudo-class' => sub {
+  my $dom = Mojo::DOM58->new('<html><head></head><body><div><div>x</div></div></body></html>');
+  is $dom->find('body > :first-child > :first-child')->first->text, 'x', 'right text';
+  is $dom->at(':scope:first-child'), undef, 'no result';
 };
 
 subtest 'TO_JSON' => sub {
