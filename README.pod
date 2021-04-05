@@ -326,12 +326,12 @@ Support for compound selectors was added as part of
 L<Selectors Level 4|https://dev.w3.org/csswg/selectors-4>, which is still a work
 in progress.
 
-=item E:matches(s1, s2)
+=item E:is(s1, s2)
 
 An C<E> element that matches compound selector C<s1> and/or compound selector
 C<s2>. Note that this selector is B<EXPERIMENTAL> and might change without warning!
 
-  my $headers = $dom->find(':matches(section, article, aside, nav) h1');
+  my $headers = $dom->find(':is(section, article, aside, nav) h1');
 
 This selector is part of
 L<Selectors Level 4|https://dev.w3.org/csswg/selectors-4>, which is still a work

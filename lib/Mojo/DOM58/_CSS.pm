@@ -127,8 +127,8 @@ sub _compile {
     elsif ($css =~ /\G:([\w\-]+)(?:\(((?:\([^)]+\)|[^)])+)\))?/gcs) {
       my ($name, $args) = (lc $1, $2);
 
-      # ":matches" and ":not" (contains more selectors)
-      $args = _compile($args, %ns) if $name eq 'matches' || $name eq 'not';
+      # ":is" and ":not" (contains more selectors)
+      $args = _compile($args, %ns) if $name eq 'is' || $name eq 'not';
 
       # ":nth-*" (with An+B notation)
       $args = _equation($args) if $name =~ /^nth-/;
@@ -209,8 +209,8 @@ sub _pc {
   # ":not"
   return !_match($args, $current, $current) if $class eq 'not';
 
-  # ":matches"
-  return !!_match($args, $current, $current) if $class eq 'matches';
+  # ":is"
+  return !!_match($args, $current, $current) if $class eq 'is';
 
   # ":empty"
   return !grep { !_empty($_) } @$current[4 .. $#$current] if $class eq 'empty';

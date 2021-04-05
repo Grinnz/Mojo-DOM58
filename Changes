@@ -1,5 +1,6 @@
 {{$NEXT}}
   - Added EXPERIMENTAL support for :any-link pseudo-class. (from Mojolicious 8.42)
+  - Renamed experimental :matches pseudo-class to :is. (from Mojolicious 8.42)
 
 2.000     2018-12-17 20:49:49 EST
   - Fixed warnings in collection uniq method when collection contains undefined
