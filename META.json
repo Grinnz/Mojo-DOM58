@@ -72,11 +72,11 @@
    "provides" : {
       "Mojo::DOM58" : {
          "file" : "lib/Mojo/DOM58.pm",
-         "version" : "2.001"
+         "version" : "3.000"
       },
       "Mojo::DOM58::Entities" : {
          "file" : "lib/Mojo/DOM58/Entities.pm",
-         "version" : "2.001"
+         "version" : "3.000"
       }
    },
    "release_status" : "stable",
@@ -92,7 +92,7 @@
       },
       "x_IRC" : "irc://irc.freenode.net/#mojo"
    },
-   "version" : "2.001",
+   "version" : "3.000",
    "x_contributors" : [
       "Dan Book <grinnz@grinnz.com>"
    ],
