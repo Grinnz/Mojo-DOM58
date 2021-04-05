@@ -652,13 +652,21 @@ An C<E> element that has no children (including text nodes).
 
   my $empty = $dom->find(':empty');
 
+=item E:any-link
+
+Alias for L</"E:link">. Note that this selector is B<EXPERIMENTAL> and might
+change without warning! This selector is part of
+L<Selectors Level 4|https://dev.w3.org/csswg/selectors-4>, which is still a
+work in progress.
+
 =item E:link
 
 An C<E> element being the source anchor of a hyperlink of which the target is
 not yet visited (C<:link>) or already visited (C<:visited>). Note that
-L<Mojo::DOM58> is not stateful, therefore C<:link> and C<:visited> yield
-exactly the same results.
+L<Mojo::DOM58> is not stateful, therefore C<:any-link>, C<:link> and
+C<:visited> yield exactly the same results.
 
+  my $links = $dom->find(':any-link');
   my $links = $dom->find(':link');
   my $links = $dom->find(':visited');
 

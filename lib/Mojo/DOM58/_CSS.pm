@@ -218,8 +218,8 @@ sub _pc {
   # ":root"
   return $current->[3] && $current->[3][0] eq 'root' if $class eq 'root';
 
-  # ":link" and ":visited"
-  if ($class eq 'link' || $class eq 'visited') {
+  # ":any-link", ":link" and ":visited"
+  if ($class eq 'any-link' || $class eq 'link' || $class eq 'visited') {
     return undef unless $current->[0] eq 'tag' && exists $current->[2]{href};
     return !!grep { $current->[1] eq $_ } qw(a area link);
   }

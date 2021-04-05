@@ -27,7 +27,7 @@ my %WriteMakefileArgs = (
     "ExtUtils::MakeMaker" => 0,
     "File::Spec" => 0,
     "JSON::PP" => 0,
-    "Test::More" => "0.88"
+    "Test::More" => "0.96"
   },
   "VERSION" => "2.001",
   "test" => {
@@ -45,7 +45,7 @@ my %FallbackPrereqs = (
   "JSON::PP" => 0,
   "List::Util" => 0,
   "Scalar::Util" => 0,
-  "Test::More" => "0.88"
+  "Test::More" => "0.96"
 );
 
 
