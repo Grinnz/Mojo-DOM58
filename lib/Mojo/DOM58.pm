@@ -417,8 +417,8 @@ Mojo::DOM58 - Minimalistic HTML/XML DOM parser with CSS selectors
 
 L<Mojo::DOM58> is a minimalistic and relaxed pure-perl HTML/XML DOM parser based
 on L<Mojo::DOM>. It supports the L<HTML Living Standard|https://html.spec.whatwg.org/>
-and L<Extensible Markup Language (XML) 1.0|http://www.w3.org/TR/xml/>, and
-matching based on L<CSS3 selectors|http://www.w3.org/TR/selectors/>. It will
+and L<Extensible Markup Language (XML) 1.0|https://www.w3.org/TR/xml/>, and
+matching based on L<CSS3 selectors|https://www.w3.org/TR/selectors/>. It will
 even try to interpret broken HTML and XML, so you should not use it for
 validation.
 
@@ -520,14 +520,14 @@ An C<E> element whose C<foo> attribute value is exactly equal to C<bar>.
 
 An C<E> element whose C<foo> attribute value is exactly equal to any
 (ASCII-range) case-permutation of C<bar>. Note that this selector is
-EXPERIMENTAL and might change without warning!
+B<EXPERIMENTAL> and might change without warning!
 
   my $case_insensitive = $dom->find('input[type="hidden" i]');
   my $case_insensitive = $dom->find('input[type=hidden i]');
   my $case_insensitive = $dom->find('input[class~="foo" i]');
 
 This selector is part of
-L<Selectors Level 4|http://dev.w3.org/csswg/selectors-4>, which is still a work
+L<Selectors Level 4|https://dev.w3.org/csswg/selectors-4>, which is still a work
 in progress.
 
 =item E[foo~="bar"]
@@ -688,24 +688,24 @@ An C<E> element with C<ID> equal to "myid".
 =item E:not(s1, s2)
 
 An C<E> element that does not match either compound selector C<s1> or compound
-selector C<s2>. Note that support for compound selectors is EXPERIMENTAL and
+selector C<s2>. Note that support for compound selectors is B<EXPERIMENTAL> and
 might change without warning!
 
   my $others = $dom->find('div p:not(:first-child, :last-child)');
 
 Support for compound selectors was added as part of
-L<Selectors Level 4|http://dev.w3.org/csswg/selectors-4>, which is still a work
+L<Selectors Level 4|https://dev.w3.org/csswg/selectors-4>, which is still a work
 in progress.
 
 =item E:matches(s1, s2)
 
 An C<E> element that matches compound selector C<s1> and/or compound selector
-C<s2>. Note that this selector is EXPERIMENTAL and might change without warning!
+C<s2>. Note that this selector is B<EXPERIMENTAL> and might change without warning!
 
   my $headers = $dom->find(':matches(section, article, aside, nav) h1');
 
 This selector is part of
-L<Selectors Level 4|http://dev.w3.org/csswg/selectors-4>, which is still a work
+L<Selectors Level 4|https://dev.w3.org/csswg/selectors-4>, which is still a work
 in progress.
 
 =item A|E
@@ -1098,6 +1098,9 @@ Trailing key/value pairs can be used to declare xml namespace aliases.
 
 Find this element's namespace, or return C<undef> if none could be found.
 
+  # "http://www.w3.org/2000/svg"
+  Mojo::DOM58->new('<svg xmlns:svg="http://www.w3.org/2000/svg"><svg:circle>3.14</svg:circle></svg>')->at('svg\:circle')->namespace;
+
   # Find namespace for an element with namespace prefix
   my $namespace = $dom->at('svg > svg\:circle')->namespace;
 
@@ -1320,6 +1323,8 @@ Render this node and its content to HTML/XML.
 
   # "<b>Test</b>"
   $dom->parse('<div><b>Test</b></div>')->at('div b')->to_string;
+
+To extract text content from all descendant nodes, see L</"all_text">.
 
 =head2 tree
 
