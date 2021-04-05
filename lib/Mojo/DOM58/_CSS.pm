@@ -133,7 +133,7 @@ sub _compile {
       my ($name, $args) = (lc $1, $2);
 
       # ":is" and ":not" (contains more selectors)
-      $args = _compile($args, %ns) if $name eq 'is' || $name eq 'not';
+      $args = _compile($args, %ns) if $name eq 'has' || $name eq 'is' || $name eq 'not';
 
       # ":nth-*" (with An+B notation)
       $args = _equation($args) if $name =~ /^nth-/;
@@ -190,7 +190,7 @@ sub _is_scoped {
     return 1 if $pc->[1] eq 'scope';
 
     # Argument of functional pseudo-class with ":scope"
-    return 1 if ($pc->[1] eq 'not' || $pc->[1] eq 'is') && grep { _is_scoped($_) } @{$pc->[2]};
+    return 1 if ($pc->[1] eq 'has' || $pc->[1] eq 'is' || $pc->[1] eq 'not') && grep { _is_scoped($_) } @{$pc->[2]};
   }
 
   return undef;
@@ -235,6 +235,9 @@ sub _pc {
 
   # ":is"
   return !!_match($args, $current, $current, $scope) if $class eq 'is';
+
+  # ":has"
+  return !!_select(1, $current, $args) if $class eq 'has';
 
   # ":empty"
   return !grep { !_empty($_) } @$current[4 .. $#$current] if $class eq 'empty';

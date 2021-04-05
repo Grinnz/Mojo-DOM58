@@ -1375,6 +1375,12 @@ EOF
   is $dom->at(':scope p a')->text,   'Link', 'right text';
   is $dom->at('> p')->at('p ~ :scope'), undef, 'no result';
   is $dom->at('> p:last-child')->at('p ~ :scope')->text, 'Five', 'righ text';
+  is $dom->at('p:has(+ i)')->text,        'Four',  'right text';
+  is $dom->at('p:has(:scope ~ i)')->text, 'Three', 'right text';
+  is $dom->at('div:has(i) p')->text,      'Three', 'right text';
+  is $dom->at('div:has(> i) p')->text,    'Three', 'right text';
+  is $dom->find('div:not(:has(i)) > p')->last->all_text, 'Link', 'right text';
+  is $dom->find('div:has(:not(p)) > p')->last->all_text, 'Four', 'right text';
 };
 
 

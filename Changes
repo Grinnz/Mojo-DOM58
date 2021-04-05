@@ -7,7 +7,8 @@
     case-sensitive. (from Mojolicious 8.42)
   - Fixed a bug where select and ruby elements were parsed incorrectly.
     (from Mojolicious 8.54)
-  - Added EXPERIMENTAL support for :scope pseudo-class. (from Mojolicious 8.54)
+  - Added EXPERIMENTAL support for :scope and :has pseudo-classes.
+    (from Mojolicious 8.54)
 
 2.000     2018-12-17 20:49:49 EST
   - Fixed warnings in collection uniq method when collection contains undefined

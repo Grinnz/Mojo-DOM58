@@ -689,12 +689,13 @@ Alias for L</"E:link">.
 =item E:scope
 
 An C<E> element being a designated reference element. Note that this selector is B<EXPERIMENTAL> and might change
-without warning! This selector is part of L<Selectors Level 4|http://dev.w3.org/csswg/selectors-4>, which is still a
-work in progress.
+without warning!
 
   my $scoped = $dom->find('a:not(:scope > a)');
   my $scoped = $dom->find('div :scope p');
   my $scoped = $dom->find('~ p');
+
+This selector is part of L<Selectors Level 4|https://dev.w3.org/csswg/selectors-4>, which is still a work in progress.
 
 =item E:checked
 
@@ -737,6 +738,17 @@ C<s2>. Note that this selector is B<EXPERIMENTAL> and might change without warni
 This selector is part of
 L<Selectors Level 4|https://dev.w3.org/csswg/selectors-4>, which is still a work
 in progress.
+
+=item E:has(rs1, rs2)
+
+An C<E> element, if either of the relative selectors C<rs1> or C<rs2>, when evaluated with C<E> as the :scope elements,
+match an element. Note that this selector is B<EXPERIMENTAL> and might change without warning!
+
+  my $link = $dom->find('a:has(> img)');
+
+This selector is part of L<Selectors Level 4|https://dev.w3.org/csswg/selectors-4>, which is still a work in progress.
+Also be aware that this feature is currently marked C<at-risk>, so there is a high chance that it will get removed
+completely.
 
 =item A|E
 
