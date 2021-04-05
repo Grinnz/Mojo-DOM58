@@ -6,6 +6,9 @@ package Mojo::DOM58::_CSS;
 
 use strict;
 use warnings;
+use Data::Dumper;
+
+use constant DEBUG => $ENV{MOJO_DOM58_CSS_DEBUG} || 0;
 
 our $VERSION = '2.001';
 
@@ -158,8 +161,11 @@ sub _compile {
     else {last}
   }
 
+  warn qq{-- CSS Selector ($css)\n@{[_dumper($group)]}} if DEBUG;
   return $group;
 }
+
+sub _dumper { Data::Dumper->new([@_])->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(1)->Dump }
 
 sub _empty { $_[0][0] eq 'comment' || $_[0][0] eq 'pi' }
 

@@ -18,9 +18,11 @@ my %WriteMakefileArgs = (
   "NAME" => "Mojo::DOM58",
   "PREREQ_PM" => {
     "Carp" => 0,
+    "Data::Dumper" => 0,
     "Exporter" => "5.57",
     "List::Util" => 0,
-    "Scalar::Util" => 0
+    "Scalar::Util" => 0,
+    "constant" => 0
   },
   "TEST_REQUIRES" => {
     "Encode" => 0,
@@ -38,6 +40,7 @@ my %WriteMakefileArgs = (
 
 my %FallbackPrereqs = (
   "Carp" => 0,
+  "Data::Dumper" => 0,
   "Encode" => 0,
   "Exporter" => "5.57",
   "ExtUtils::MakeMaker" => 0,
@@ -45,7 +48,8 @@ my %FallbackPrereqs = (
   "JSON::PP" => 0,
   "List::Util" => 0,
   "Scalar::Util" => 0,
-  "Test::More" => "0.96"
+  "Test::More" => "0.96",
+  "constant" => 0
 );
 
 
