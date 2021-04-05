@@ -524,7 +524,8 @@ key/value pairs to generate attributes from.
 
   my $text = $dom->all_text;
 
-Extract text content from all descendant nodes of this element.
+Extract text content from all descendant nodes of this element. For HTML documents C<script> and C<style> elements are
+excluded.
 
   # "foo\nbarbaz\n"
   $dom->parse("<div>foo\n<p>bar</p>baz\n</div>")->at('div')->all_text;
