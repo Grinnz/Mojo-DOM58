@@ -15,7 +15,6 @@
   - Unknown CSS selectors will now throw exceptions. (from Mojolicious 8.66)
   - (INCOMPATIBLE CHANGE) Improved all_text method to exclude "<script>" and
     "<style>" from text extraction in HTML documents. (from Mojolicious 9.0)
-  - Added EXPERIMENTAL support for :text pseudo-class. (from Mojolicious 9.14)
 
 2.000     2018-12-17 20:49:49 EST
   - Fixed warnings in collection uniq method when collection contains undefined

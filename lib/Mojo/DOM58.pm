@@ -752,23 +752,6 @@ This selector is part of L<Selectors Level 4|https://dev.w3.org/csswg/selectors-
 Also be aware that this feature is currently marked C<at-risk>, so there is a high chance that it will get removed
 completely.
 
-=item E:text(string_or_regex)
-
-An C<E> element containing text content that substring matches C<string_or_regex> case-insensitively or that regex
-matches C<string_or_regex>. For regular expressions use the format C<:text(/.../)>. Note that this selector is
-B<EXPERIMENTAL> and might change without warning!
-
-  # Substring match
-  my $login = $dom->find(':text(Log in)');
-
-  # Regex match
-  my $login = $dom->find(':text(/Log ?in/)');
-
-  # Regex match (case-insensitive)
-  my $login = $css->find(':text(/(?i:Log ?in)/)');
-
-This is a custom selector for L<Mojo::DOM58> and not part of any spec.
-
 =item A|E
 
 An C<E> element that belongs to the namespace alias C<A> from
