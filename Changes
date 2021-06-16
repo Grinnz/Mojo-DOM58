@@ -1,4 +1,5 @@
 {{$NEXT}}
+  - Update IRC metadata to libera.chat
 
 3.000     2021-04-04 23:34:33 EDT
   - Added head and tail collection methods. (from Mojolicious 8.23)
