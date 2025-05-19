@@ -460,7 +460,7 @@ the type C<tag>.
 While all node types are represented as L<Mojo::DOM58> objects, some methods like
 L</"attr"> and L</"namespace"> only apply to elements.
 
-=head1 CASE-SENSITIVITY
+=head1 HTML AND XML
 
 L<Mojo::DOM58> defaults to HTML semantics, that means all tags and attribute
 names are lowercased and selectors need to be lowercase as well.
