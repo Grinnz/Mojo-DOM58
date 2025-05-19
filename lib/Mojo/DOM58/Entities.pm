@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Exporter 'import';
 
-our $VERSION = '3.002';
+our $VERSION = '3.003';
 
 our @EXPORT_OK = qw(html_attr_unescape html_escape html_unescape);
 
