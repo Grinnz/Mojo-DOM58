@@ -15,7 +15,7 @@ our $VERSION = '3.002';
 our @EXPORT_OK = 'tag_to_html';
 
 my $ATTR_RE = qr/
-  ([^<>=\s\/]+|\/)                         # Key
+  ([^<>=\s\/0-9.\-][^<>=\s\/]*|\/)         # Key
   (?:
     \s*=\s*
     (?s:(?:"(.*?)")|(?:'(.*?)')|([^>\s]*)) # Value
@@ -40,7 +40,7 @@ my $TOKEN_RE = qr/
     |
       \?(.*?)\?                                       # Processing Instruction
     |
-      \s*([^<>\s]+\s*(?>(?:$ATTR_RE){0,32766})*)       # Tag
+      \s*((?:\/\s*)?[^<>\s\/0-9.\-][^<>\s\/]*\s*(?>(?:$ATTR_RE){0,32766})*)   # Tag
       # Workaround for perl's limit of * to {0,32767}
     )>
   |
@@ -154,7 +154,7 @@ sub parse {
         # No more content
         if (!$xml && (my $tags = $NO_MORE_CONTENT{$end})) { _end($_, $xml, \$current) for @$tags }
 
-        _end($xml ? $1 : lc $1, $xml, \$current);
+        _end($end, $xml, \$current);
       }
 
       # Start
