@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+3.002     2025-05-19 19:29:08 EDT
   - Added EXPERIMENTAL support for :text pseudo-class. (from Mojolicious 9.14)
   - Fixed Mojo::DOM58 not to auto-close tags in <svg> and <math> blocks.
     (from Mojolicious 9.21)
