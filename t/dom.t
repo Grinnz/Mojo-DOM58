@@ -1094,28 +1094,28 @@ EOF
   is_deeply \@li, ['F'], 'found third last li element';
   @li = ();
   $dom->find('li:nth-child(1n+0)')->each(sub { push @li, shift->text });
-  is_deeply \@li, [qw(A B C D E F G)], 'found all li elements';
+  is_deeply \@li, [qw(A B C D E F G H)], 'found all li elements';
   @li = ();
   $dom->find('li:nth-child(1n-0)')->each(sub { push @li, shift->text });
-  is_deeply \@li, [qw(A B C D E F G)], 'found all li elements';
+  is_deeply \@li, [qw(A B C D E F G H)], 'found all li elements';
   @li = ();
   $dom->find('li:nth-child(n+0)')->each(sub { push @li, shift->text });
-  is_deeply \@li, [qw(A B C D E F G)], 'found all li elements';
+  is_deeply \@li, [qw(A B C D E F G H)], 'found all li elements';
   @li = ();
   $dom->find('li:nth-child(n)')->each(sub { push @li, shift->text });
-  is_deeply \@li, [qw(A B C D E F G)], 'found all li elements';
+  is_deeply \@li, [qw(A B C D E F G H)], 'found all li elements';
   @li = ();
   $dom->find('li:nth-child(n+0)')->each(sub { push @li, shift->text });
-  is_deeply \@li, [qw(A B C D E F G)], 'found all li elements';
+  is_deeply \@li, [qw(A B C D E F G H)], 'found all li elements';
   @li = ();
   $dom->find('li:NTH-CHILD(N+0)')->each(sub { push @li, shift->text });
-  is_deeply \@li, [qw(A B C D E F G)], 'found all li elements';
+  is_deeply \@li, [qw(A B C D E F G H)], 'found all li elements';
   @li = ();
   $dom->find('li:Nth-Child(N+0)')->each(sub { push @li, shift->text });
-  is_deeply \@li, [qw(A B C D E F G)], 'found all li elements';
+  is_deeply \@li, [qw(A B C D E F G H)], 'found all li elements';
   @li = ();
   $dom->find('li:nth-child(n)')->each(sub { push @li, shift->text });
-  is_deeply \@li, [qw(A B C D E F G)], 'found all li elements';
+  is_deeply \@li, [qw(A B C D E F G H)], 'found all li elements';
   @li = ();
   $dom->find('li:nth-child(0n+1)')->each(sub { push @li, shift->text });
   is_deeply \@li, [qw(A)], 'found first li element';
@@ -1157,20 +1157,20 @@ EOF
   @e = ();
   $dom->find('ul li:not(:first-child, :last-child)')
     ->each(sub { push @e, shift->text });
-  is_deeply \@e, [qw(C E F H)], 'found all odd li elements';
+  is_deeply \@e, [qw(C E F H)], 'found all odd li elements but first/last';
   @e = ();
   $dom->find('ul li:is(:first-child, :last-child)')
     ->each(sub { push @e, shift->text });
-  is_deeply \@e, [qw(A I)], 'found all odd li elements';
+  is_deeply \@e, [qw(A I)], 'found first/last li elements';
   @e = ();
   $dom->find('li:nth-last-of-type( odd )')->each(sub { push @e, shift->text });
-  is_deeply \@e, [qw(C F I)], 'found all odd li elements';
+  is_deeply \@e, [qw(C F I)], 'found all odd li elements (counting from end)';
   @e = ();
   $dom->find('p:nth-of-type(odd)')->each(sub { push @e, shift->text });
   is_deeply \@e, [qw(B G)], 'found all odd p elements';
   @e = ();
   $dom->find('p:nth-last-of-type(odd)')->each(sub { push @e, shift->text });
-  is_deeply \@e, [qw(B G)], 'found all odd li elements';
+  is_deeply \@e, [qw(B G)], 'found all odd p elements (counting from end)';
   @e = ();
   $dom->find('ul :nth-child(1)')->each(sub { push @e, shift->text });
   is_deeply \@e, ['A'], 'found first child';
@@ -1256,6 +1256,9 @@ EOF
   @e = ();
   $dom->find('div div:only-of-type')->each(sub { push @e, shift->text });
   is_deeply \@e, [qw(J K)], 'found only child';
+  @e = ();
+  $dom->find('div :nth-child(-n+2)')->each(sub { push @e, shift->text });
+  is_deeply \@e, [qw(J DOM K)], 'found first two children of each div';
 };
 
 subtest 'Links' => sub {

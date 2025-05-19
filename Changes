@@ -5,6 +5,7 @@
   - Fixed multiple "<script>" parsing issues. (from Mojolicious 9.31)
   - Fixed a bug where strings like "<.>" were considered valid tags.
     (from Mojolicious 9.31)
+  - Fixed various CSS selector equation bugs. (from Mojolicious 9.32)
 
 3.001     2021-06-16 01:28:52 EDT
   - Update IRC metadata to libera.chat
