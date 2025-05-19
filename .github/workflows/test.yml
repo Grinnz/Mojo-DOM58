@@ -31,7 +31,7 @@ jobs:
         uses: perl-actions/install-with-cpanm@v1
         with:
           sudo: false
-          args: --sudo --installdeps --with-develop .
+          args: --sudo --installdeps --with-suggests .
       - run: perl Makefile.PL
       - run: make
       - run: make test
@@ -75,7 +75,7 @@ jobs:
         uses: perl-actions/install-with-cpanm@v1
         with:
           sudo: false
-          args: -v --installdeps --with-develop .
+          args: -v --installdeps --with-suggests .
       - run: perl Makefile.PL
       - run: make
       - run: make test
