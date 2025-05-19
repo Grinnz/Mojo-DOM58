@@ -2,6 +2,7 @@
   - Added EXPERIMENTAL support for :text pseudo-class. (from Mojolicious 9.14)
   - Fixed Mojo::DOM58 not to auto-close tags in <svg> and <math> blocks.
     (from Mojolicious 9.21)
+  - Fixed multiple "<script>" parsing issues. (from Mojolicious 9.31)
   - Fixed a bug where strings like "<.>" were considered valid tags.
     (from Mojolicious 9.31)
 
