@@ -1,5 +1,7 @@
 {{$NEXT}}
   - Added EXPERIMENTAL support for :text pseudo-class. (from Mojolicious 9.14)
+  - Fixed Mojo::DOM58 not to auto-close tags in <svg> and <math> blocks.
+    (from Mojolicious 9.21)
 
 3.001     2021-06-16 01:28:52 EDT
   - Update IRC metadata to libera.chat
