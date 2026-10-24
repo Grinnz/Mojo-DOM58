@@ -1,4 +1,5 @@
 {{$NEXT}}
+  - Fix whitespace handling in descendent combinator (from Mojolicious 9.44)
 
 3.002     2025-05-19 19:29:08 EDT
   - Added EXPERIMENTAL support for :text pseudo-class. (from Mojolicious 9.14)

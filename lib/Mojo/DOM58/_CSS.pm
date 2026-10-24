@@ -109,13 +109,19 @@ sub _compile {
     if ($css =~ /\G\s*,\s*/gc) { push @$group, [] }
 
     # Combinator
-    elsif ($css =~ /\G\s*([ >+~])\s*/gc) {
+    elsif ($css =~ /\G\s*([>+~])\s*/gc) {
       push @$last, ['pc', 'scope'] unless @$last;
       push @$selectors, $1;
     }
 
+    # Descendent combinator
+    elsif ($css =~ /\G\s+/gc) {
+      push @$last, ['pc', 'scope'] unless @$last;
+      push @$selectors, ' ';
+    }
+
     # Class or ID
-    elsif ($css =~ /\G([.#])((?:$ESCAPE_RE\s|\\.|[^,.#:[ >~+])+)/gco) {
+    elsif ($css =~ /\G([.#])((?:$ESCAPE_RE\s?|[^,.#:[\s>~+])+)/gco) {
       my ($name, $op) = $1 eq '.' ? ('class', '~') : ('id', '');
       push @$last, ['attr', _name($name), _value($op, $2)];
     }
@@ -152,7 +158,7 @@ sub _compile {
     }
 
     # Tag
-    elsif ($css =~ /\G((?:$ESCAPE_RE\s|\\.|[^,.#:[ >~+])+)/gco) {
+    elsif ($css =~ /\G((?:$ESCAPE_RE\s|\\[\s\S]|[^,.#:[\s>~+])+)/gco) {
       my $alias = (my $name = $1) =~ s/^([^|]*)\|// && $1 ne '*' ? $1 : undef;
       return [['invalid']] if defined $alias && length $alias && !defined $ns{$alias};
       my $ns = defined $alias && length $alias ? $ns{$alias} : $alias;
