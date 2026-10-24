@@ -18,6 +18,8 @@
     example with strip, was not escaped (from Mojolicious 9.51)
   - Fix bug where any processing instruction containing "xml" would activate XML
     mode (from Mojolicious 9.51)
+  - Replace invalid codepoints with replacement character and map the C1 control
+    range to windows-1252 in html_unescape (from Mojolicious 9.52)
 
 3.002     2025-05-19 19:29:08 EDT
   - Added EXPERIMENTAL support for :text pseudo-class. (from Mojolicious 9.14)
