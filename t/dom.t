@@ -375,6 +375,14 @@ subtest 'Script tag with HTML comment containing nested script tags' => sub {
   is $dom->at('script')->text, ' console.log("<!-- <script> </script> -->"); ', 'right script content';
 };
 
+subtest 'Script tag with HTML comment containing stray characters' => sub {
+  my $dom = Mojo::DOM58->new(q{<script>/* <!-- <foo --> */</script>});
+  is $dom->at('script')->text, '/* <!-- <foo --> */', 'right script content';
+
+  $dom = Mojo::DOM58->new(q{<script>/* <!-- a-b --> */</script>});
+  is $dom->at('script')->text, '/* <!-- a-b --> */', 'right script content';
+};
+
 subtest 'HTML5 (unquoted values)' => sub {
   my $dom = Mojo::DOM58->new(
     '<div id = test foo ="bar" class=tset bar=/baz/ value baz=//>works</div>');
@@ -1349,6 +1357,13 @@ EOF
   is $dom->at('#♥ ~ #☃ ~ *:nth-last-child(1)')->text, 'G', 'right text';
   is $dom->at('#♥ + *:nth-last-child(2)')->text,        'F', 'right text';
   is $dom->at('#♥ ~ *:nth-last-child(2)')->text,        'F', 'right text';
+  ok $dom->at('#♥')->matches('h1 + p'),   'match';
+  ok !$dom->at('#☃')->matches('h1 + p'),  'no match';
+  ok !$dom->at('h1')->matches('h1 + p'),  'no match';
+  ok $dom->at('#☃')->matches('h1 ~ p'),   'match';
+  ok $dom->at('#♥')->matches('h1 ~ p'),   'match';
+  ok !$dom->at('div')->matches('h1 ~ p'), 'no match';
+  ok !$dom->matches('h1 + p'),            'no match';
 };
 
 subtest 'Whitespace as descendant combinator' => sub {
