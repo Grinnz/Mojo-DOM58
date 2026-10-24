@@ -1896,7 +1896,6 @@ subtest 'Real world JavaScript and CSS' => sub {
         alert('<123>');
       }
     </script>
-    < sCriPt two="23" >if (b > c) { alert('&<ohoh>') }</scRiPt  >
   <body>Foo!</body>
 EOF
   is $dom->find('html > body')->[0]->text, 'Foo!', 'right text';
@@ -1904,8 +1903,6 @@ EOF
     "#style { foo: style('<test>'); }", 'right text';
   is $dom->find('html > head > script')->[0]->text,
     "\n      if (a < b) {\n        alert('<123>');\n      }\n    ", 'right text';
-  is $dom->find('html > head > script')->[1]->text,
-    "if (b > c) { alert('&<ohoh>') }", 'right text';
 };
 
 subtest 'More real world JavaScript' => sub {
@@ -2734,10 +2731,9 @@ subtest 'Dot and hash in class and id attributes' => sub {
 
 subtest 'Extra whitespace' => sub {
   my $dom = Mojo::DOM58->new('< span>a< /span><b >b</b><span >c</ span>');
-  is $dom->at('span')->text,     'a', 'right text';
-  is $dom->at('span + b')->text, 'b', 'right text';
-  is $dom->at('b + span')->text, 'c', 'right text';
-  is "$dom", '<span>a</span><b>b</b><span>c</span>', 'right result';
+  is $dom->at('b')->text,        'b',                                                  'right text';
+  is $dom->at('b + span')->text, 'c',                                                  'right text';
+  is "$dom",                     '&lt; span&gt;a&lt; /span&gt;<b>b</b><span>c</span>', 'right result';
 };
 
 subtest 'Selectors with leading and trailing whitespace' => sub {
@@ -2759,8 +2755,8 @@ subtest '"0"' => sub {
 
 subtest 'Not self-closing' => sub {
   my $dom = Mojo::DOM58->new('<div />< div ><pre />test</div >123');
-  is $dom->at('div > div > pre')->text, 'test', 'right text';
-  is "$dom", '<div><div><pre>test</pre></div>123</div>', 'right result';
+  is $dom->at('div > pre')->text, 'test', 'right text';
+  is "$dom", '<div>&lt; div &gt;<pre>test</pre></div>123', 'right result';
   $dom = Mojo::DOM58->new('<p /><svg><circle /><circle /></svg>');
   is $dom->find('p > svg > circle')->size, 2, 'two circles';
   is "$dom", '<p><svg><circle></circle><circle></circle></svg></p>',
@@ -3242,6 +3238,19 @@ subtest 'Runaway "<"' => sub {
     </table>
 EOF
   is $dom->at('.test')->text, 'works', 'right text';
+};
+
+subtest '"<" followed by space is not a tag opener' => sub {
+  my $dom = Mojo::DOM58->new('if a < script then="<!--"> </script> <p>FAIL</p>-->');
+  is_deeply $dom->find('script, p')->map('to_string')->to_array, [], 'fragment contains no tags, just a comment';
+
+  $dom = Mojo::DOM58->new('a < b');
+  is "$dom", 'a &lt; b', 'right result';
+  is_deeply $dom->find('*')->to_array, [], 'no elements';
+
+  $dom = Mojo::DOM58->new('a < b <p>ok</p>');
+  is_deeply $dom->find('*')->map('tag')->to_array, ['p'], 'only one element';
+  is $dom->at('p')->text, 'ok', 'right text';
 };
 
 subtest 'XML name characters' => sub {

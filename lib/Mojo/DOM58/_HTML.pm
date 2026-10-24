@@ -40,7 +40,7 @@ my $TOKEN_RE = qr/
     |
       \?(.*?)\?                                       # Processing Instruction
     |
-      \s*((?:\/\s*)?[^<>\s\/0-9.\-][^<>\s\/]*\s*(?>(?:$ATTR_RE){0,32766})*)   # Tag
+      ((?:\/\s*)?[^<>\s\/0-9.\-][^<>\s\/]*\s*(?>(?:$ATTR_RE){0,32766})*)   # Tag
       # Workaround for perl's limit of * to {0,32767}
     )>
   |
