@@ -2808,13 +2808,26 @@ subtest 'Comments' => sub {
   my $dom = Mojo::DOM58->new(<<EOF);
 <!-- HTML5 -->
 <!-- bad idea -- HTML5 -->
-<!-- HTML4 -- >
-<!-- bad idea -- HTML4 -- >
 EOF
   is $dom->tree->[1][1], ' HTML5 ',             'right comment';
   is $dom->tree->[3][1], ' bad idea -- HTML5 ', 'right comment';
-  is $dom->tree->[5][1], ' HTML4 ',             'right comment';
-  is $dom->tree->[7][1], ' bad idea -- HTML4 ', 'right comment';
+};
+
+subtest 'Comment is not terminated by "-- >"' => sub {
+  my $dom = Mojo::DOM58->new('<!-- a > -- > b <blink>c</blink> -->');
+  is $dom->at('blink'), undef,                          'blink element is inside comment';
+  is $dom->tree->[1][1], ' a > -- > b <blink>c</blink> ', 'right comment';
+};
+
+subtest 'Abrupt and bang-terminated comments' => sub {
+  my $dom = Mojo::DOM58->new("<!DOCTYPE html>\n<!--> <p>OK</p> <!-- -->");
+  is $dom->at('p')->text, 'OK', 'abrupt empty comment closure';
+
+  $dom = Mojo::DOM58->new("<!DOCTYPE html>\n<!---> <p>OK</p> <!-- -->");
+  is $dom->at('p')->text, 'OK', 'dash-terminated empty comment';
+
+  $dom = Mojo::DOM58->new("<!DOCTYPE html>\n<!-- --!> <p>OK</p> <!-- -->");
+  is $dom->at('p')->text, 'OK', 'bang-terminated comment';
 };
 
 subtest 'Huge number of attributes' => sub {

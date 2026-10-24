@@ -33,7 +33,7 @@ my $TOKEN_RE = qr/
         (?:\s+\[.+?\])?                               # Int Subset
         \s*)
       |
-        --(.*?)--\s*                                  # Comment
+        --(.*?)(?:--!?|(?<=<!--)-?(?=>))              # Comment
       |
         \[CDATA\[(.*?)\]\]                            # CDATA
       )
