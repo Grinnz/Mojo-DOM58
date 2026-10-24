@@ -8,6 +8,16 @@
   - Fix security issue where the content of title and textarea elements was not
     escaped during rendering, allowing escaped end tags to break out and turn
     sanitized HTML into live markup (from Mojolicious 9.50)
+  - Fix bug where CDATA sections, processing instructions, and DOCTYPE declarations
+    did not end at the first ">" in HTML documents (from Mojolicious 9.51)
+  - Fix bug where the content of "<style>" and "<script>" elements in "<svg>" and
+    "<math>" blocks was not parsed as markup (from Mojolicious 9.51)
+  - Fix bug where end tags like "</style/>" did not end "<style>" and "<script>"
+    elements (from Mojolicious 9.51)
+  - Fix bug where raw text moved out of "<style>" and "<script>" elements, for
+    example with strip, was not escaped (from Mojolicious 9.51)
+  - Fix bug where any processing instruction containing "xml" would activate XML
+    mode (from Mojolicious 9.51)
 
 3.002     2025-05-19 19:29:08 EDT
   - Added EXPERIMENTAL support for :text pseudo-class. (from Mojolicious 9.14)
