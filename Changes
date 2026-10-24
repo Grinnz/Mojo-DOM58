@@ -3,6 +3,7 @@
   - Handle script tags spec compliant (from Mojolicious 9.44)
   - Fix various comment parsing issues (from Mojolicious 9.44)
   - Fix parsing of tag opener (from Mojolicious 9.44)
+  - Replace recursive CSS matcher with iterative approach (from Mojolicious 9.44)
 
 3.002     2025-05-19 19:29:08 EDT
   - Added EXPERIMENTAL support for :text pseudo-class. (from Mojolicious 9.14)
