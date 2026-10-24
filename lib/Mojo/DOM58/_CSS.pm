@@ -63,14 +63,14 @@ sub _all_tags {
 }
 
 sub _attr {
-  my ($name_re, $value_re, $current) = @_;
+  my ($name, $value_re, $current) = @_;
 
   my $attrs = $current->[2];
-  for my $name (keys %$attrs) {
-    my $value = $attrs->{$name};
-    next if $name !~ $name_re || (!defined $value && defined $value_re);
-    return 1 if !(defined $value && defined $value_re) || $value =~ $value_re;
-  }
+  return undef unless exists $attrs->{$name};
+
+  my $value = $attrs->{$name};
+  return undef if !defined $value && defined $value_re;
+  return 1 if !defined $value_re || $value =~ $value_re;
 
   return undef;
 }
@@ -103,13 +103,13 @@ sub _compile {
     # Class or ID
     elsif ($css =~ /\G([.#])((?:$ESCAPE_RE\s?|[^,.#:[\s>~+])+)/gco) {
       my ($name, $op) = $1 eq '.' ? ('class', '~') : ('id', '');
-      push @$last, ['attr', _name($name), _value($op, $2)];
+      push @$last, ['attr', $name, _value($op, $2)];
     }
 
     # Attributes
     elsif ($css =~ /\G$ATTR_RE/gco) {
       push @$last, [
-        'attr', _name($1),
+        'attr', _unescape($1),
         _value(
           defined($2) ? $2 : '',
           defined($3) ? $3 : defined($4) ? $4 : $5,
