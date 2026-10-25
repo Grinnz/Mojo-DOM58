@@ -19,8 +19,13 @@
   - Fix bug where any processing instruction containing "xml" would activate XML
     mode (from Mojolicious 9.51)
   - Replace invalid codepoints with replacement character and map the C1 control
-    range to windows-1252 in html_unescape (from Mojolicious 9.52)
+    range to windows-1252 in html_unescape, as required by the WHATWG HTML
+    standard (from Mojolicious 9.52)
   - Improve at performance for selectors without combinators (from Mojolicious 9.53)
+  - Improve HTML/XML parsing performance matching attributes only once
+    (from Mojolicious 9.53)
+  - Fix bug where many unclosed comments, CDATA sections, processing instructions
+    or RCDATA elements could make parsing extremely slow (from Mojolicious 9.53)
 
 3.002     2025-05-19 19:29:08 EDT
   - Added EXPERIMENTAL support for :text pseudo-class. (from Mojolicious 9.14)
