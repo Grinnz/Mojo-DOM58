@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+3.003     2026-10-24 23:26:07 EDT
   - Fix whitespace handling in descendent combinator (from Mojolicious 9.44)
   - Handle script tags spec compliant (from Mojolicious 9.44)
   - Fix various comment parsing issues (from Mojolicious 9.44)
