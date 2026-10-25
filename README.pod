@@ -41,7 +41,8 @@ on L<Mojo::DOM>. It supports the L<HTML Living Standard|https://html.spec.whatwg
 and L<Extensible Markup Language (XML) 1.0|https://www.w3.org/TR/xml/>, and
 matching based on L<CSS3 selectors|https://www.w3.org/TR/selectors/>. It will
 even try to interpret broken HTML and XML, so you should not use it for
-validation.
+validation or sanitization. Its interpretation of broken markup can differ from
+that of a web browser.
 
 =head1 FORK INFO
 
@@ -50,7 +51,7 @@ closely compatible with upstream. It differs only in the standalone format and
 compatibility with Perl 5.8. Any bugs or patches not related to these changes
 should be reported directly to the L<Mojolicious> issue tracker.
 
-This release of L<Mojo::DOM58> is up to date with version C<9.40> of
+This release of L<Mojo::DOM58> is up to date with version C<9.53> of
 L<Mojolicious>.
 
 =head1 NODES AND ELEMENTS
@@ -88,8 +89,8 @@ names are lowercased and selectors need to be lowercase as well.
   my $dom = Mojo::DOM58->new('<P ID="greeting">Hi!</P>');
   say $dom->at('p[id]')->text;
 
-If an XML declaration is found, the parser will automatically switch into XML
-mode and everything becomes case-sensitive.
+If the document starts with an XML declaration, the parser will automatically
+switch into XML mode and everything becomes case-sensitive.
 
   # XML semantics
   my $dom = Mojo::DOM58->new('<?xml version="1.0"?><P ID="greeting">Hi!</P>');
@@ -1389,7 +1390,7 @@ upstream L<Mojolicious> issue tracker.
 
 =head1 AUTHOR
 
-Dan Book <dbook@cpan.org>
+Dan Book <book.d.wit@proton.me>
 
 Code and tests adapted from L<Mojo::DOM>, a lightweight DOM parser by the L<Mojolicious> team.
 

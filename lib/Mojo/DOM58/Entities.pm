@@ -158,7 +158,7 @@ upstream L<Mojolicious> issue tracker.
 
 =head1 AUTHOR
 
-Dan Book <dbook@cpan.org>
+Dan Book <book.d.wit@proton.me>
 
 Code and tests adapted from L<Mojo::Util>, a set of utilities by the
 L<Mojolicious> team.
